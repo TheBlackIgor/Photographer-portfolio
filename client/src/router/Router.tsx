@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { ChadPanelLayout } from "@/layouts";
-import { PanelLogin } from "@/pages";
+import { loginAction, PanelLogin } from "@/pages";
 
 export const Router = () => {
   useEffect(() => {

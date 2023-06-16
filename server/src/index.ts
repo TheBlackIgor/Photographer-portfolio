@@ -1,14 +1,15 @@
 import express from "express";
 import cors from "cors";
-import { connectToMongoDB } from "db";
+import { connectToMongoDB } from "./db";
 import { MongoClientOptions } from "mongodb";
+import { routes } from "./routes";
 const app = express();
 require("dotenv").config();
 
 const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
-// app.use(require("./routes/record.js"));
+app.use("/", routes);
 // get driver connection
 
 // perform a database connection when server starts
@@ -18,7 +19,12 @@ const mongoOptions: MongoClientOptions = {
   //   useUnifiedTopology: true,
 };
 
-app.listen(port, () => {
+app.post("/api/XD", (req, res) => {
+  console.log(req.body);
+  res.end('{"D":"XDD"}');
+});
+
+app.listen(port, async () => {
   connectToMongoDB(mongoURL, mongoOptions)
     .then((client) => {
       // Perform operations with the MongoDB client

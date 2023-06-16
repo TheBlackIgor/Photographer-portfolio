@@ -1,18 +1,26 @@
 import "./Button.scss";
 
-import React from "react";
+import { ReactNode } from "react";
 
 interface Props {
-  func: () => void;
+  func?: () => void;
   type: "submit";
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export const Button = ({ func, type = "submit", children }: Props) => {
   if (type === "submit")
-    return (
-      <button className="button-submit" type="submit" onClick={() => func()}>
-        {children}
-      </button>
-    );
+    if (func)
+      return (
+        <button className="button-submit" type="submit" onClick={() => func()}>
+          {children}
+        </button>
+      );
+    else
+      return (
+        <button className="button-submit" type="submit">
+          {children}
+        </button>
+      );
+  return <></>;
 };

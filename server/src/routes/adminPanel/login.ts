@@ -1,8 +1,12 @@
-import { Router } from "express";
-import { encryptPassword, decryptPassword } from "utils";
+import { Router, response } from "express";
+import { encryptPassword, decryptPassword } from "src/utils";
 
-export const routesUser = Router();
+export const routesAdmin = Router();
 
-routesUser.route("/api/validateSignup").post((req, res) => {});
+routesAdmin.route("/api/tokenExpire").post((req, res) => {
+  response.end("Hello");
+});
 
-routesUser.route("/api/login").post((req, res) => {});
+routesAdmin.route("/api/login").post((req, res) => {
+  response.end("Hello");
+});
