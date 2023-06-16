@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { connectToMongoDB } from "./db/conn";
+import { connectToMongoDB } from "db";
 import { MongoClientOptions } from "mongodb";
 const app = express();
 require("dotenv").config();

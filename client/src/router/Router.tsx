@@ -15,8 +15,9 @@ export const Router = () => {
         <Route path="/0" element={<></>}>
           <Route path="home" element={<div>Home</div>}></Route>
         </Route>
-        <Route path={"/czadowyPanel"} element={<ChadPanelLayout />}>
-          <Route index element={<PanelLogin />} />
+        <Route path="/czadowyPanel" element={<ChadPanelLayout />}>
+          <Route index element={<></>} />
+          <Route path="login" element={<PanelLogin />} />
         </Route>
       </Routes>
     </BrowserRouter>
