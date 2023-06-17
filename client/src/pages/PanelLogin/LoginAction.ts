@@ -5,17 +5,24 @@ export const loginAction = async (request: FormData, method: string) => {
   const username = request.get("username");
   const password = request.get("password");
 
-  console.log(username, password);
   const body = JSON.stringify({
     username,
     password,
   });
 
-  const response = await fetch(apiUrl + "/api/XD", { method, body });
+  const headers = { "Content-Type": "application/json" };
+
+  const response = await fetch(apiUrl + "/api/login", {
+    method,
+    headers,
+    body,
+  });
   if (response.ok) {
     const body = await response.json();
-    console.log(body);
+    localStorage.setItem("token", body.token);
+    return true;
   } else {
     console.log("response error");
+    return false;
   }
 };

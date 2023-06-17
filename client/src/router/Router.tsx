@@ -16,7 +16,7 @@ export const Router = () => {
           <Route path="home" element={<div>Home</div>}></Route>
         </Route>
         <Route path="/czadowyPanel" element={<ChadPanelLayout />}>
-          <Route index element={<></>} />
+          <Route index element={<>czad panel</>} />
           <Route path="login" element={<PanelLogin />} />
         </Route>
       </Routes>

@@ -9,6 +9,9 @@ export const ChadPanelLayout = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token === null) navigate("/czadowyPanel/login");
+    else {
+      console.log("sprawdzanie tokena");
+    }
   }, [navigate]);
 
   return (
