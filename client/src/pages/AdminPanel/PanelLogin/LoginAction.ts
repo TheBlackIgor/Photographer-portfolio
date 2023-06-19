@@ -19,8 +19,10 @@ export const loginAction = async (request: FormData, method: string) => {
   });
   if (response.ok) {
     const body = await response.json();
-    localStorage.setItem("token", body.token);
-    return true;
+    if (body.isSuccess) {
+      localStorage.setItem("token", body.token);
+      return true;
+    } else return false;
   } else {
     console.log("response error");
     return false;

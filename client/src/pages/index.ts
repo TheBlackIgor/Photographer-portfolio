@@ -1,1 +1,1 @@
-export * from "./PanelLogin";
+export * from "./AdminPanel";

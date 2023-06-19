@@ -3,16 +3,25 @@ import "./ChadPanelLayout.scss";
 import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router";
 
+import { verifyToken } from "./ChadPanelActions";
+
 export const ChadPanelLayout = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    checkToken();
+  }, []);
+
+  const checkToken = async () => {
     const token = localStorage.getItem("token");
-    if (token === null) navigate("/czadowyPanel/login");
-    else {
-      console.log("sprawdzanie tokena");
+    const tokenValid = token ? await verifyToken(token) : false;
+    if (token === null || !tokenValid) {
+      console.log("nieprawidłowy token");
+      navigate("/czadowyPanel/login");
+    } else {
+      navigate("/czadowyPanel/settings");
     }
-  }, [navigate]);
+  };
 
   return (
     <div className="chadpanel-main">

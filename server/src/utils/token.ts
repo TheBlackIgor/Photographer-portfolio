@@ -1,6 +1,7 @@
 import * as jwt from "jsonwebtoken";
 import { IncomingMessage } from "http";
 require("dotenv").config();
+import { Request } from "express";
 
 export const createToken = async (username: string, password: string) => {
   return await jwt.sign(
@@ -15,24 +16,25 @@ export const createToken = async (username: string, password: string) => {
   );
 };
 
-export const verifyHeaderToken = async (request: IncomingMessage) => {
+type RequestT = Request;
+
+export const verifyHeaderToken = async (request: Request) => {
   try {
     if (
-      request.headers.authorization &&
-      request.headers.authorization.startsWith("Bearer")
+      request.headers.authentication &&
+      typeof request.headers.authentication === "string" &&
+      request.headers.authentication.startsWith("Bearer")
     ) {
-      const token = request.headers.authorization.split(" ")[1];
+      const token = request.headers.authentication.split(" ")[1];
       const decoded: any = await jwt.verify(
         token,
         process.env.JWT_KEY || "nasjkdfb"
       );
-      if (
+      return (
         decoded.username &&
         decoded.password &&
         new Date(decoded.exp * 1000) > new Date()
-      )
-        return true;
-      else return false;
+      );
     }
   } catch (ex: any) {
     console.log({ message: ex.message });
