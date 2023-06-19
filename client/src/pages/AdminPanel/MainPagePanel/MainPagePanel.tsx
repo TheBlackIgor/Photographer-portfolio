@@ -1,3 +1,13 @@
+import { ImagesDrop } from "@/components";
+
 export const MainPagePanel = () => {
-  return <div></div>;
+  const handleDropImages = () => {
+    console.log("imagesDropped");
+  };
+
+  return (
+    <div>
+      <ImagesDrop onChange={handleDropImages} />
+    </div>
+  );
 };
