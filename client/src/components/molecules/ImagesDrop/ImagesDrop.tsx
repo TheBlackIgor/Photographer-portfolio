@@ -8,6 +8,7 @@ interface ImagesDropProps {
 
 export const ImagesDrop = ({ onChange }: ImagesDropProps) => {
   const [communicat, setCommunicat] = useState("Drag and drop files");
+  const [imagesCount, setImagesCount] = useState(0);
 
   useEffect(() => {
     window.ondragover = function (e) {
@@ -37,8 +38,10 @@ export const ImagesDrop = ({ onChange }: ImagesDropProps) => {
     const files = e.dataTransfer.files;
     const fd = new FormData();
 
-    for (let i = 0; i < files.length; i++) fd.append("file", files[i]);
+    for (let i = 0; i < files.length; i++)
+      fd.append("file" + (imagesCount + i + 1), files[i]);
 
+    setImagesCount(imagesCount + files.length);
     onChange(fd);
   };
 
