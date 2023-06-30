@@ -1,2 +1,2 @@
-export * from "./LoginAction";
+export * from "../../../api/LoginAction";
 export * from "./PanelLogin";

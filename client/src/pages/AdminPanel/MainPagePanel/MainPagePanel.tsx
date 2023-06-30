@@ -2,6 +2,7 @@ import "./MainPagePanel.scss";
 
 import { useState } from "react";
 
+import { sendFiles } from "@/api";
 import { Button, ImagesDrop, ShowImages } from "@/components";
 import { concatenateFormData, removeByIndex } from "@/utils";
 
@@ -33,12 +34,16 @@ export const MainPagePanel = () => {
     setSliderFormData(newForm);
   };
 
+  const handleSendImages = () => {
+    sendFiles(sliderFormData, "slider");
+  };
+
   return (
     <main className="main-page-main">
       <h3>Slider images</h3>
       <ImagesDrop onChange={handleDropImages} />
       <ShowImages images={sliderImages} removeImage={handleRemoveSliderImage} />
-      <Button type="submit" onClick={() => console.log("XD")}>
+      <Button type="submit" onClick={() => handleSendImages()}>
         Upload
       </Button>
     </main>

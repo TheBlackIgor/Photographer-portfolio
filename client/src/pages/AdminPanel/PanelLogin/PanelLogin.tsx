@@ -3,9 +3,8 @@ import "./PanelLogin.scss";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { loginAction } from "@/api";
 import { Button, Loader } from "@/components";
-
-import { loginAction } from "./LoginAction";
 
 export const PanelLogin = () => {
   const [username, setUsername] = useState("");
