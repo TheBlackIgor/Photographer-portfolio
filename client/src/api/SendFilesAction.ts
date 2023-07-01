@@ -4,7 +4,7 @@ import { apiUrl } from "@/constant";
 
 export const sendFiles = (formData: FormData, url: string) => {
   axios
-    .post(apiUrl + "/api/upload" + url, formData, {
+    .post(apiUrl + "/api/upload/" + url, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

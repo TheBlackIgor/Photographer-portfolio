@@ -1,37 +1,46 @@
-import { Router } from "express";
+import { Router, response } from "express";
 import formidable from "formidable";
 import * as fs from "fs";
+import path from "path";
+import { Photo } from "../../models";
 
+const UPLOAD_PATH = "./uploads/";
 export const receivePhotos = Router();
 
 receivePhotos.post("/api/upload/:folder", (req, res) => {
   const form = formidable({ multiples: true, keepExtensions: true });
+  const response: Photo[] = [];
 
-  let dir = "./app/uploads/" + req.params.folder;
-
-  form.parse(req, (err, fields, files: any) => {
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-
-    if (err) {
-      console.error(err);
-      res.status(500).send("Internal Server Error");
-      return;
-    }
-
-    // Iterate through the files and save them
-    O;
-    for (const file of Object.values(files)) {
-      const oldPath = file.path;
-      const newPath = __dirname + "/uploads/" + file.name;
-
-      fs.rename(oldPath, newPath, (error) => {
-        if (error) {
-          console.error(error);
-          res.status(500).send("Internal Server Error");
-        }
-      });
-    }
-
-    res.send("Files uploaded successfully");
+  form.parse(req, async (err: any, fields: any, files: any) => {
+    console.log(files);
+    const keys = Object.keys(files);
+    console.log(keys);
+    if (keys.length > 0)
+      keys.forEach(async (key) =>
+        response.push(await createImage(files[key], req.params.folder))
+      );
+    setTimeout(() => {
+      console.log(response);
+      res.end(JSON.stringify(response));
+    }, 2000);
   });
 });
+
+const createImage = async (file: any, album: string): Promise<Photo> =>
+  new Promise((resolve, reject) => {
+    const name = file.path.substring(file.path.lastIndexOf(path.sep));
+    const newPath = path.join(UPLOAD_PATH, album, name);
+
+    if (!fs.existsSync(path.join(UPLOAD_PATH, album))) {
+      console.log();
+      fs.mkdir(path.join(UPLOAD_PATH, album), async (err) => {
+        fs.rename(file.path, newPath, async () => {
+          resolve(new Photo(file.name, newPath, album));
+        });
+      });
+    } else {
+      fs.rename(file.path, newPath, async (err) => {
+        resolve(new Photo(file.name, newPath, album));
+      });
+    }
+  });
