@@ -2,7 +2,7 @@ import "./MainPagePanel.scss";
 
 import { useState } from "react";
 
-import { sendFiles } from "@/api";
+import { getFiles, sendFiles } from "@/api";
 import { Button, ImagesDrop, ShowImages } from "@/components";
 import { concatenateFormData, removeByIndex } from "@/utils";
 
@@ -36,6 +36,8 @@ export const MainPagePanel = () => {
 
   const handleSendImages = () => {
     sendFiles(sliderFormData, "slider");
+    const images = getFiles("slider");
+    console.log(images);
   };
 
   return (

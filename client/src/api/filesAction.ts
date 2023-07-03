@@ -18,3 +18,16 @@ export const sendFiles = (formData: FormData, url: string) => {
       // Handle error
     });
 };
+
+export const getFiles = (url: string) => {
+  axios
+    .post(apiUrl + "/api/get/" + url)
+    .then(response => {
+      console.log(response.data);
+      // Handle response from the server
+    })
+    .catch(error => {
+      console.error(error);
+      // Handle error
+    });
+};

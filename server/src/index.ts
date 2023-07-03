@@ -27,17 +27,7 @@ const mongoOptions: MongoClientOptions = {
 };
 
 app.listen(port, async () => {
-  connectToMongoDB(mongoURL, mongoOptions)
-    .then((client) => {
-      // Perform operations with the MongoDB client
-      // For example:
-      const db = client.db("reusgraphy");
-      const collection = db.collection("images");
-      // ... Perform CRUD operations here ...
-    })
-    .catch((error) => {
-      // Handle error
-      console.error("Failed to connect to MongoDB:", error);
-    });
+  await connectToMongoDB(mongoURL, mongoOptions);
+
   console.log(`Server is running on port: ${port}`);
 });
