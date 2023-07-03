@@ -1,33 +1,27 @@
 import axios from "axios";
 
 import { apiUrl } from "@/constant";
+import { PhotoI } from "@/types";
 
-export const sendFiles = (formData: FormData, url: string) => {
-  axios
-    .post(apiUrl + "/api/upload/" + url, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    })
-    .then(response => {
-      console.log(response.data);
-      // Handle response from the server
-    })
-    .catch(error => {
-      console.error(error);
-      // Handle error
-    });
+export const sendFiles = async (formData: FormData, url: string) => {
+  await axios.post(apiUrl + "/api/upload/" + url, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 };
 
-export const getFiles = (url: string) => {
-  axios
+export const getFiles = async (url: string) => {
+  let images: PhotoI[] = [];
+  await axios
     .post(apiUrl + "/api/get/" + url)
     .then(response => {
-      console.log(response.data);
       // Handle response from the server
+      images = response.data;
     })
     .catch(error => {
       console.error(error);
       // Handle error
     });
+  return images;
 };

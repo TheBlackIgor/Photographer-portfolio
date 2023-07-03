@@ -34,3 +34,6 @@ export const insertArray = (objects: any[], collection: string) => {
 export const findAll = async (collection: string) => {
   if (db) return db.collection(collection).find().toArray();
 };
+export const findOne = async (query: any, collection: string) => {
+  if (db) return db.collection(collection).findOne(query);
+};

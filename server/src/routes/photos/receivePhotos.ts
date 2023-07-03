@@ -15,8 +15,8 @@ receivePhotos.post("/api/upload/:folder", (req, res) => {
   form.parse(req, async (err: any, fields: any, files: any) => {
     const keys = Object.keys(files);
     if (keys.length > 0) {
-      const promises = keys.map(async (key) => {
-        return createImage(files[key], folder);
+      const promises = keys.map(async (key, idx) => {
+        return createImage(files[key], folder, idx);
       });
 
       try {
@@ -33,7 +33,11 @@ receivePhotos.post("/api/upload/:folder", (req, res) => {
   });
 });
 
-const createImage = async (file: any, album: string): Promise<Photo> =>
+const createImage = async (
+  file: any,
+  album: string,
+  idx: number
+): Promise<Photo> =>
   new Promise((resolve, reject) => {
     if (!fs.existsSync(UPLOAD_PATH + album))
       fs.mkdirSync(UPLOAD_PATH + album, { recursive: true });
@@ -45,11 +49,20 @@ const createImage = async (file: any, album: string): Promise<Photo> =>
       const newFileName = splitedFilePath[splitedFilePath.length - 1];
       let newPath = `${UPLOAD_PATH}/${album}/${newFileName}`;
 
+      const extension = newFileName.split(".")[1];
+
       fs.writeFile(newPath, fs.readFileSync(file.path), function (err) {
         if (err) {
           return console.log(err);
         }
-        resolve(new Photo(new Date().getTime().toString(), newPath, album));
+        resolve(
+          new Photo(
+            (new Date().getTime() + idx).toString(),
+            newPath,
+            album,
+            extension
+          )
+        );
       });
     } catch (error) {
       console.log(error);
