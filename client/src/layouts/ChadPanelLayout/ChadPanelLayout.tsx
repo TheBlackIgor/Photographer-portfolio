@@ -16,7 +16,6 @@ export const ChadPanelLayout = () => {
   const checkToken = async () => {
     const token = localStorage.getItem("token");
     const tokenValid = token ? await verifyToken(token) : false;
-    console.log("XD");
     if (token === null || !tokenValid) {
       console.log("nieprawidłowy token");
       navigate("/czadowyPanel/login");

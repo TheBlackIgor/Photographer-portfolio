@@ -25,3 +25,18 @@ export const getFiles = async (url: string) => {
     });
   return images;
 };
+
+export const deleteFile = async (id: number, url: string) => {
+  let images: PhotoI[] = [];
+  await axios
+    .delete(apiUrl + "/api/image/" + url + "/" + id)
+    .then(response => {
+      // Handle response from the server
+      images = response.data;
+    })
+    .catch(error => {
+      console.error(error);
+      // Handle error
+    });
+  return images;
+};

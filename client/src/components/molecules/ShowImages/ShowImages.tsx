@@ -15,7 +15,6 @@ export const ShowImages = ({
   linkedImages,
   removeImage,
 }: ShowImagesI) => {
-  console.log(linkedImages);
   return (
     <div className="images-container">
       {images

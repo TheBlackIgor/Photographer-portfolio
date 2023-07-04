@@ -37,3 +37,11 @@ export const findAll = async (collection: string) => {
 export const findOne = async (query: any, collection: string) => {
   if (db) return db.collection(collection).findOne(query);
 };
+
+export const deleteOne = async (query: any, collection: string) => {
+  if (db) {
+    const document = findOne(query, collection);
+    db.collection(collection).deleteOne(query);
+    return document;
+  }
+};

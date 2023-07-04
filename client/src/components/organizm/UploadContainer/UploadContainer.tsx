@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { getFiles, sendFiles } from "@/api";
+import { deleteFile, getFiles, sendFiles } from "@/api";
 import { Button, ImagesDrop, ShowImages } from "@/components";
 import { PhotoI } from "@/types";
 import { concatenateFormData, removeByIndex } from "@/utils";
@@ -45,8 +45,8 @@ export const UploadContainer = ({ url, title }: UploadContainerI) => {
     setFormData(new FormData());
     setImages([]);
   };
-  const handleRemoveImageFromServer = (id: number) => {
-    console.log(id);
+  const handleRemoveImageFromServer = async (id: number) => {
+    setUploadedImages(await deleteFile(id, url));
   };
 
   useEffect(() => {
