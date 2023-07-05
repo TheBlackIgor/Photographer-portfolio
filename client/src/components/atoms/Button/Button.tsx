@@ -2,9 +2,11 @@ import "./Button.scss";
 
 import { ReactNode } from "react";
 
+import { AddIcon } from "@/assets";
+
 interface Props {
   onClick?: () => void;
-  type: "submit";
+  type: "submit" | "add";
   children: ReactNode;
 }
 
@@ -26,5 +28,12 @@ export const Button = ({ onClick, type = "submit", children }: Props) => {
           {children}
         </button>
       );
+  else if (type === "add")
+    return (
+      <button className="button-submit">
+        <AddIcon />
+        {children}
+      </button>
+    );
   return <></>;
 };
