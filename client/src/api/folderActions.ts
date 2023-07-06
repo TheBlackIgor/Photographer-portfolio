@@ -6,16 +6,16 @@ import { PhotoI } from "@/types";
 export const createFolder = async (body: unknown) => {
   await axios.post(apiUrl + "/api/folder/create", {
     headers: {
-      "Content-Type": "multipart/form-data",
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(body),
   });
 };
 
-export const getFolders = async (url: string) => {
+export const getFolders = async () => {
   let images: PhotoI[] = [];
   await axios
-    .post(apiUrl + "/api/get/" + url)
+    .post(apiUrl + "/api/folder/get")
     .then(response => {
       // Handle response from the server
       images = response.data;

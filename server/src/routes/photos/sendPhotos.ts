@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { deleteOne, findAll, findOne } from "../../db";
-import { Photo } from "../../models";
 import * as fs from "fs";
 
 export const sendPhotos = Router();

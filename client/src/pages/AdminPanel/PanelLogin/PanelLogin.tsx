@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { loginAction } from "@/api";
-import { Button, Loader } from "@/components";
+import { Button, Loader, TextInput } from "@/components";
 
 export const PanelLogin = () => {
   const [username, setUsername] = useState("");
@@ -40,36 +40,21 @@ export const PanelLogin = () => {
           className="panel-login-form"
           onSubmit={e => handleSubmit(e)}
         >
-          <div className="panel-login-input-group">
-            <label htmlFor="username" className="panel-login-label">
-              Username
-            </label>
-            <input
-              required
-              autoComplete="off"
-              name="username"
-              id="username"
-              className="panel-login-input"
-              value={username}
-              type="text"
-              onChange={e => setUsername(e.target.value)}
-            />
-          </div>
-          <div className="panel-login-input-group">
-            <label htmlFor="username" className="panel-login-label">
-              Password
-            </label>
-            <input
-              required
-              autoComplete="off"
-              name="username"
-              id="username"
-              className="panel-login-input"
-              value={password}
-              type="password"
-              onChange={e => setPassword(e.target.value)}
-            />
-          </div>
+          <TextInput
+            label="Username"
+            name="username"
+            value={username}
+            setValue={setUsername}
+            required={true}
+          />
+          <TextInput
+            label="Password"
+            name="password"
+            type="password"
+            value={password}
+            setValue={setPassword}
+            required={true}
+          />
           <Button type="submit">Log in</Button>
           <div className="panel-login-message">{message}</div>
         </form>
