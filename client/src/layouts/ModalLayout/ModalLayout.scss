@@ -1,0 +1,26 @@
+.modal-layout {
+  &-main {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  &-bg {
+    background-color: rgba(0, 0, 0, 0.308);
+    position: absolute;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+  }
+  &-content {
+    border: 2px solid rgb(31, 31, 31);
+    padding: 10px;
+    z-index: 11;
+    background: white;
+  }
+}
