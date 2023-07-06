@@ -1,6 +1,6 @@
 import "./MainPagePanel.scss";
 
-import { Button, UploadContainer } from "@/components";
+import { Button, Spacer, UploadContainer } from "@/components";
 
 export const MainPagePanel = () => {
   const handleAddFolder = () => {
@@ -10,6 +10,7 @@ export const MainPagePanel = () => {
   return (
     <main className="main-page-main">
       <UploadContainer url="slider" title="Slider images" />
+      <Spacer />
       <Button type="add" onClick={handleAddFolder}>
         Add folder
       </Button>
