@@ -13,18 +13,19 @@ export const createFolder = async (body: unknown) => {
 };
 
 export const getFolders = async () => {
-  let images: PhotoI[] = [];
+  let folders: string[] = [];
   await axios
-    .post(apiUrl + "/api/folder/get")
+    .post(apiUrl + "/api/folders/get")
     .then(response => {
       // Handle response from the server
-      images = response.data;
+      console.log(response.data);
+      folders = response.data.folders;
     })
     .catch(error => {
       console.error(error);
       // Handle error
     });
-  return images;
+  return folders;
 };
 
 export const deleteFolder = async (id: number, url: string) => {

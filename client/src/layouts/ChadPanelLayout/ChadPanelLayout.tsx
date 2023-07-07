@@ -3,7 +3,7 @@ import "./ChadPanelLayout.scss";
 import { useEffect } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router";
 
-import { verifyToken } from "./ChadPanelActions";
+import { verifyToken } from "@/api";
 
 export const ChadPanelLayout = () => {
   const navigate = useNavigate();

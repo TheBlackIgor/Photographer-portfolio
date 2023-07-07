@@ -4,3 +4,8 @@ export interface PhotoI {
   path: string;
   album: string;
 }
+
+export interface FolderI {
+  _id: string;
+  id: string;
+}

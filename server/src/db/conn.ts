@@ -1,3 +1,4 @@
+import { query } from "express";
 import { MongoClient, MongoClientOptions } from "mongodb";
 require("dotenv").config();
 import { ObjectId } from "mongodb";
@@ -44,4 +45,12 @@ export const deleteOne = async (query: any, collection: string) => {
     db.collection(collection).deleteOne(query);
     return document;
   }
+};
+
+export const updateOne = async (
+  query: any,
+  update: any,
+  collection: string
+) => {
+  if (db) db.collection(collection).updateOne(query, { $set: update });
 };

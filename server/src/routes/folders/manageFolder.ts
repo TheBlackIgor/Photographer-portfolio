@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { deleteOne, findAll, findOne, insertOne } from "../../db";
+import { deleteOne, findAll, findOne, insertOne, updateOne } from "../../db";
 import * as fs from "fs";
 
 export const manageFolders = Router();
@@ -7,14 +7,32 @@ export const manageFolders = Router();
 manageFolders.post("/api/folder/create", async (req, res) => {
   const body = JSON.parse(req.body.body);
 
-  console.log(body);
-
+  const folders = await findOne({ id: "index" }, "folders");
+  if (!folders) {
+    await insertOne({ id: "index", folders: [body.name] }, "folders");
+  } else {
+    await updateOne(
+      { id: "index" },
+      { folders: [...folders.folders, body.name] },
+      "folders"
+    );
+  }
   insertOne(
     { id: "index", data: JSON.stringify({ title: body.title }) },
     body.name
   );
 
   res.end();
+});
+
+manageFolders.post("/api/folders/get", async (req, res) => {
+  const folders = await findOne({ id: "index" }, "folders");
+
+  res.writeHead(200, {
+    "Content-Type": "application/json",
+  });
+
+  res.end(JSON.stringify(folders));
 });
 
 // manageFolders.get("/api/image/:folder/:id", async (req, res) => {
