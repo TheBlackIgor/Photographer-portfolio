@@ -2,4 +2,9 @@
   &-main {
     width: 80%;
   }
+  &-folders {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
 }

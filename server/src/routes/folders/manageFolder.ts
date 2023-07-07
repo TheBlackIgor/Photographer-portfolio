@@ -25,15 +25,9 @@ manageFolders.post("/api/folder/create", async (req, res) => {
   res.end();
 });
 
-manageFolders.post("/api/folders/get", async (req, res) => {
-  const folders = await findOne({ id: "index" }, "folders");
-
-  res.writeHead(200, {
-    "Content-Type": "application/json",
-  });
-
-  res.end(JSON.stringify(folders));
-});
+manageFolders.post("/api/folders/get", async (req, res) =>
+  res.end(JSON.stringify(await findOne({ id: "index" }, "folders")))
+);
 
 // manageFolders.get("/api/image/:folder/:id", async (req, res) => {
 //   const id = req.params.id;

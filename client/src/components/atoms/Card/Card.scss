@@ -1,0 +1,17 @@
+.card {
+  &-main {
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: row;
+    background-color: rgb(228, 228, 228);
+    transition: all ease 0.4s;
+    color: black;
+    border-radius: 5px;
+    border: 1px solid rgb(31, 31, 31);
+    margin: 10px;
+    cursor: pointer;
+  }
+  &-main:hover {
+    background-color: rgb(192, 192, 192);
+  }
+}

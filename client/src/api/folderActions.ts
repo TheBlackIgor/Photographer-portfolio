@@ -18,7 +18,6 @@ export const getFolders = async () => {
     .post(apiUrl + "/api/folders/get")
     .then(response => {
       // Handle response from the server
-      console.log(response.data);
       folders = response.data.folders;
     })
     .catch(error => {

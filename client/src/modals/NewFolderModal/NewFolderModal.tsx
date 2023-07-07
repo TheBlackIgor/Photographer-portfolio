@@ -16,7 +16,8 @@ export const NewFolderModal = ({ isVisible, close }: NewFolderModalProps) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await createFolder({ name: newFolderName, title });
-
+    setNewFolderName("");
+    setTitle("");
     close();
   };
 
