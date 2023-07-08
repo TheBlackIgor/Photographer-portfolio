@@ -1,0 +1,9 @@
+.folder-page {
+  &-main {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+}

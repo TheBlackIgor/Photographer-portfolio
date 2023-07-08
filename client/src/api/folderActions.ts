@@ -27,6 +27,21 @@ export const getFolders = async () => {
   return folders;
 };
 
+export const getFolder = async (name: string) => {
+  let folders: any[] = [];
+  await axios
+    .post(apiUrl + "/api/folder/" + name)
+    .then(response => {
+      // Handle response from the server
+      folders = response.data;
+    })
+    .catch(error => {
+      console.error(error);
+      // Handle error
+    });
+  return folders;
+};
+
 export const deleteFolder = async (id: number, url: string) => {
   let images: PhotoI[] = [];
   await axios

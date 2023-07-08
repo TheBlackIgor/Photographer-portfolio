@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { deleteOne, findAll, findOne, insertOne, updateOne } from "../../db";
+import { findAll, findOne, insertOne, updateOne } from "../../db";
 import * as fs from "fs";
 
 export const manageFolders = Router();
@@ -18,7 +18,7 @@ manageFolders.post("/api/folder/create", async (req, res) => {
     );
   }
   insertOne(
-    { id: "index", data: JSON.stringify({ title: body.title }) },
+    { id: "index", title: body.title, descriptio: "", sections: [] },
     body.name
   );
 
@@ -29,6 +29,12 @@ manageFolders.post("/api/folders/get", async (req, res) =>
   res.end(JSON.stringify(await findOne({ id: "index" }, "folders")))
 );
 
+manageFolders.post("/api/folder/:name", async (req, res) => {
+  const name = req.params.name;
+  console.log("???");
+
+  res.end(JSON.stringify(await findAll(name)));
+});
 // manageFolders.get("/api/image/:folder/:id", async (req, res) => {
 //   const id = req.params.id;
 //   const folder = req.params.folder;
