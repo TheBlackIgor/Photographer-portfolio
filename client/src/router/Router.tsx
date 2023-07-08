@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { ChadPanelLayout } from "@/layouts";
-import { loginAction, MainPagePanel, PanelLogin } from "@/pages";
+import { FolderPagePanel, MainPagePanel, PanelLogin } from "@/pages";
 
 export const Router = () => {
   useEffect(() => {
@@ -16,8 +16,10 @@ export const Router = () => {
           <Route path="home" element={<div>Home</div>}></Route>
         </Route>
         <Route path="czadowyPanel" element={<ChadPanelLayout />}>
-          <Route path="settings" element={<MainPagePanel />}>
+          <Route path="settings">
+            <Route index element={<MainPagePanel />} />
             <Route path="main" />
+            <Route path="folders/:name" element={<FolderPagePanel />} />
           </Route>
           <Route path="login" element={<PanelLogin />} />
         </Route>

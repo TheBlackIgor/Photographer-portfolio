@@ -19,7 +19,10 @@ export const ChadPanelLayout = () => {
     if (token === null || !tokenValid) {
       console.log("nieprawidłowy token");
       navigate("/czadowyPanel/login");
-    } else {
+    } else if (
+      location.pathname === "/czadowyPanel/login" ||
+      location.pathname === "/czadowyPanel"
+    ) {
       navigate("/czadowyPanel/settings");
     }
   };
