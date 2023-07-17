@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import "./FolderPagePanel.scss";
 
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 
-import { getFolder, getFolders } from "@/api";
+import { getFolder, getFolders, updateIndexDocument } from "@/api";
 import {
   Button,
   FormSection,
@@ -11,7 +12,7 @@ import {
   TextInput,
   UploadContainer,
 } from "@/components";
-import { HeaderDocumentI } from "@/types";
+import { HeaderDocumentI, SectionI } from "@/types";
 
 export const FolderPagePanel = () => {
   const params = useParams();
@@ -19,7 +20,7 @@ export const FolderPagePanel = () => {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [sections, setSections] = useState<any[]>([]);
+  const [sections, setSections] = useState<SectionI[]>([]);
 
   const getData = async () => {
     if (params.name) {
@@ -41,8 +42,30 @@ export const FolderPagePanel = () => {
     getData();
   }, []);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    if (params.name)
+      await updateIndexDocument(params.name, {
+        title,
+        description,
+        sections,
+      });
+  };
+
+  const handleCreateSection = () => {
+    setSections([...sections, { title: "", content: "", image: "" }]);
+  };
+  const handleUpdateSection = (idx: number, updatedSection: SectionI) => {
+    const tempSections = [...sections];
+
+    tempSections[idx] = updatedSection;
+
+    setSections([...tempSections]);
+  };
+
+  const handleDeleteSection = (idx: number) => {
+    const tempSections = [...sections];
+    tempSections.splice(idx, 1);
+    setSections([...tempSections]);
   };
 
   return (
@@ -67,15 +90,29 @@ export const FolderPagePanel = () => {
           width="400px"
           multiline={true}
         />
+        <Button type="add" onClick={handleCreateSection}>
+          Create section
+        </Button>
         {sections.map((section, idx) => (
-          <FormSection key={idx} />
+          <>
+            {idx !== 0 && <Spacer />}
+            <FormSection
+              key={idx}
+              idx={idx}
+              data={section}
+              update={handleUpdateSection}
+              deleteSection={handleDeleteSection}
+            />
+          </>
         ))}
-        <Button type="submit">
-          <>Update</>
+        <Button type="submit" onClick={handleSubmit}>
+          Update
         </Button>
       </div>
       <Spacer />
-      <UploadContainer url={params.name || ""} title="Images" />
+      <div className="folder-page-uploadContainer">
+        <UploadContainer url={params.name || ""} title="Images" />
+      </div>
     </main>
   );
 };

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { apiUrl } from "@/constant";
-import { PhotoI } from "@/types";
+import { PhotoI, SectionI } from "@/types";
 
 export const createFolder = async (body: unknown) => {
   await axios.post(apiUrl + "/api/folder/create", {
@@ -40,6 +40,18 @@ export const getFolder = async (name: string) => {
       // Handle error
     });
   return folders;
+};
+
+export const updateIndexDocument = async (
+  url: string,
+  document: { title: string; description: string; sections: SectionI[] }
+) => {
+  await axios.patch(apiUrl + "/api/folder/" + url, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(document),
+  });
 };
 
 export const deleteFolder = async (id: number, url: string) => {

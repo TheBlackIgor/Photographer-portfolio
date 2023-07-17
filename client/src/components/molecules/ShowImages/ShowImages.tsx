@@ -7,13 +7,13 @@ import { PhotoI } from "@/types";
 interface ShowImagesI {
   images?: string[];
   linkedImages?: PhotoI[];
-  removeImage: (idx: number) => void;
+  onImageClick: (idx: number) => void;
 }
 
 export const ShowImages = ({
   images,
   linkedImages,
-  removeImage,
+  onImageClick,
 }: ShowImagesI) => {
   return (
     <div className="images-container">
@@ -23,8 +23,8 @@ export const ShowImages = ({
               key={idx}
               src={image}
               alt={`img${idx}`}
-              onClick={() => removeImage(idx)}
-              onKeyDown={() => removeImage(idx)}
+              onClick={() => onImageClick(idx)}
+              onKeyDown={() => onImageClick(idx)}
             />
           ))
         : linkedImages?.map(image => (
@@ -32,8 +32,8 @@ export const ShowImages = ({
               key={image.id}
               src={`${apiUrl}/api/image/${image.album}/${image.id}`}
               alt={`img${image.id}`}
-              onClick={() => removeImage(Number(image.id))}
-              onKeyDown={() => removeImage(Number(image.id))}
+              onClick={() => onImageClick(Number(image.id))}
+              onKeyDown={() => onImageClick(Number(image.id))}
             />
           ))}
     </div>

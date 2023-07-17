@@ -39,8 +39,8 @@ const createImage = async (
   idx: number
 ): Promise<Photo> =>
   new Promise((resolve, reject) => {
-    if (!fs.existsSync(UPLOAD_PATH + album))
-      fs.mkdirSync(UPLOAD_PATH + album, { recursive: true });
+    if (!fs.existsSync(UPLOAD_PATH + "/" + album))
+      fs.mkdirSync(UPLOAD_PATH + "/" + album, { recursive: true });
     try {
       let splitedFilePath: string[] = [];
       if (file.path.includes("/")) splitedFilePath = file.path.split("/");

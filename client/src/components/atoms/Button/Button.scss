@@ -50,4 +50,17 @@ button {
   &-submit:hover::before {
     width: 100%;
   }
+
+  &-simple {
+    padding: 6px 12px;
+    border: 1px solid #212121;
+    border-radius: 10px;
+    color: #212121;
+    background-color: rgb(233, 233, 233);
+    cursor: pointer;
+    transition: ease all 0.5s;
+  }
+  &-simple:hover {
+    background-color: #888888;
+  }
 }

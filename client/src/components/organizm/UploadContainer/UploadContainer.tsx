@@ -31,9 +31,9 @@ export const UploadContainer = ({ url, title }: UploadContainerI) => {
   };
 
   const handleRemoveLocalImage = (idx: number) => {
-    const tempSliderImages = [...images];
-    tempSliderImages.splice(idx, 1);
-    setImages(tempSliderImages);
+    const tempImages = [...images];
+    tempImages.splice(idx, 1);
+    setImages(tempImages);
 
     const newForm = removeByIndex(formData, idx);
     setFormData(newForm);
@@ -41,9 +41,9 @@ export const UploadContainer = ({ url, title }: UploadContainerI) => {
 
   const handleSendImages = async () => {
     await sendFiles(formData, url);
-    setUploadedImages(await getFiles(url));
     setFormData(new FormData());
     setImages([]);
+    setTimeout(async () => setUploadedImages(await getFiles(url)), 1000);
   };
   const handleRemoveImageFromServer = async (id: number) => {
     setUploadedImages(await deleteFile(id, url));
@@ -57,20 +57,15 @@ export const UploadContainer = ({ url, title }: UploadContainerI) => {
   return (
     <>
       <h3>{title}</h3>
-      <div>
-        <ImagesDrop onChange={handleDropImages} />
-        <ShowImages images={images} removeImage={handleRemoveLocalImage} />
-
-        <Button type="submit" onClick={() => handleSendImages()}>
-          Upload
-        </Button>
-      </div>
-      <div>
-        <ShowImages
-          linkedImages={uploadedImages}
-          removeImage={handleRemoveImageFromServer}
-        />
-      </div>
+      <ImagesDrop onChange={handleDropImages} />
+      <ShowImages images={images} onImageClick={handleRemoveLocalImage} />
+      <Button type="submit" onClick={() => handleSendImages()}>
+        Upload
+      </Button>
+      <ShowImages
+        linkedImages={uploadedImages}
+        onImageClick={handleRemoveImageFromServer}
+      />
     </>
   );
 };

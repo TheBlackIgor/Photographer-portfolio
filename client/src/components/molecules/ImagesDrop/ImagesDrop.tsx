@@ -1,6 +1,7 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import "./ImagesDrop.scss";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface ImagesDropProps {
   onChange: (e: FormData) => void;
@@ -9,6 +10,7 @@ interface ImagesDropProps {
 export const ImagesDrop = ({ onChange }: ImagesDropProps) => {
   const [communicat, setCommunicat] = useState("Drag and drop files");
   const [imagesCount, setImagesCount] = useState(0);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     window.ondragover = function (e) {
@@ -45,14 +47,42 @@ export const ImagesDrop = ({ onChange }: ImagesDropProps) => {
     onChange(fd);
   };
 
+  const handleOpenFileDialog = () => {
+    if (fileInputRef.current) fileInputRef.current.click();
+  };
+
+  const handleInputFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    const fd = new FormData();
+
+    if (files) {
+      for (let i = 0; i < files.length; i++)
+        fd.append("file" + (imagesCount + i + 1), files[i]);
+
+      setImagesCount(imagesCount + files.length);
+      onChange(fd);
+    }
+  };
+
   return (
-    <div
-      className="images-drop-container"
-      onDragLeave={e => handleDragLeave(e)}
-      onDragOver={e => handleDragover(e)}
-      onDrop={e => handleDragDrop(e)}
-    >
-      <p className="images-drop-title">{communicat}</p>
-    </div>
+    <>
+      <input
+        ref={fileInputRef}
+        multiple
+        type="file"
+        style={{ display: "none" }}
+        onChange={e => handleInputFiles(e)}
+      />
+      <div
+        className="images-drop-container"
+        onDragLeave={e => handleDragLeave(e)}
+        onDragOver={e => handleDragover(e)}
+        onDrop={e => handleDragDrop(e)}
+        onClick={handleOpenFileDialog}
+        onKeyDown={handleOpenFileDialog}
+      >
+        <p className="images-drop-title">{communicat}</p>
+      </div>
+    </>
   );
 };

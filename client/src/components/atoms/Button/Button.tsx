@@ -6,8 +6,8 @@ import { AddIcon } from "@/assets";
 
 interface Props {
   onClick?: () => void;
-  type: "submit" | "add";
-  children: ReactNode;
+  type: "submit" | "add" | "simple";
+  children: ReactNode | string;
 }
 
 export const Button = ({ onClick, type = "submit", children }: Props) => {
@@ -32,6 +32,12 @@ export const Button = ({ onClick, type = "submit", children }: Props) => {
     return (
       <button className="button-submit" onClick={onClick}>
         <AddIcon />
+        {children}
+      </button>
+    );
+  else if (type === "simple")
+    return (
+      <button className="button-simple" onClick={onClick}>
         {children}
       </button>
     );

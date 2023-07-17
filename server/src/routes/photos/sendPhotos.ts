@@ -6,8 +6,9 @@ export const sendPhotos = Router();
 
 sendPhotos.post("/api/get/:folder", async (req, res) => {
   const folder = req.params.folder;
-  const photos = await findAll(folder);
-
+  const photos = (await findAll(folder))?.filter(
+    (document) => document.id !== "index"
+  );
   res.send(photos);
 });
 
@@ -47,7 +48,9 @@ sendPhotos.delete("/api/image/:folder/:id", async (req, res) => {
     if (error) return;
   });
 
-  const photos = await findAll(folder);
+  const photos = (await findAll(folder))?.filter(
+    (document) => document.id !== "index"
+  );
 
   res.send(photos);
 });
