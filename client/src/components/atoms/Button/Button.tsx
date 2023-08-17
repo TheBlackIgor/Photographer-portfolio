@@ -15,7 +15,7 @@ export const Button = ({ onClick, type = "submit", children }: Props) => {
     if (onClick)
       return (
         <button
-          className="button-submit"
+          className=" button-submit"
           type="submit"
           onClick={() => onClick()}
         >
@@ -24,20 +24,20 @@ export const Button = ({ onClick, type = "submit", children }: Props) => {
       );
     else
       return (
-        <button className="button-submit" type="submit">
+        <button className=" button-submit" type="submit">
           {children}
         </button>
       );
   else if (type === "add")
     return (
-      <button className="button-submit" onClick={onClick}>
+      <button className=" button-submit" onClick={onClick}>
         <AddIcon />
         {children}
       </button>
     );
   else if (type === "simple")
     return (
-      <button className="button-simple" onClick={onClick}>
+      <button className=" button-simple" onClick={onClick}>
         {children}
       </button>
     );

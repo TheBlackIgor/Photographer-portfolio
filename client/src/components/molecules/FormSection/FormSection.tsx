@@ -1,10 +1,11 @@
 import "./FormSection.scss";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { DeleteIcon } from "@/assets";
 import { Button } from "@/components";
 import { SectionI } from "@/types";
+import { SelectImageModal } from "@/modals";
 
 interface FormSectionI {
   idx: number;
@@ -21,6 +22,7 @@ export const FormSection = ({
 }: FormSectionI) => {
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
+  const [showSelectImageModal, setShowSelectImageModal] = useState(false);
 
   useEffect(() => {
     if (titleRef.current && contentRef.current) {
@@ -47,6 +49,17 @@ export const FormSection = ({
       <input ref={titleRef} type="text" name="title" />
       <label htmlFor="title">Content</label>
       <textarea ref={contentRef} />
+      <>
+        <Button type="simple" onClick={() => setShowSelectImageModal(true)}>
+          Select photo
+        </Button>
+        <SelectImageModal
+          isVisible={showSelectImageModal}
+          close={() => setShowSelectImageModal(false)}
+          uploadedImages={[]}
+        />
+      </>
+
       <div>
         <Button type="simple" onClick={handleUpdate}>
           Update
