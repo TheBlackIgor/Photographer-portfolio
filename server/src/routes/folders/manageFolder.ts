@@ -30,7 +30,6 @@ manageFolders.post("/api/folders/get", async (req, res) =>
 
 manageFolders.post("/api/folder/:name", async (req, res) => {
   const name = req.params.name;
-  console.log("???");
 
   res.end(JSON.stringify(await findAll(name)));
 });

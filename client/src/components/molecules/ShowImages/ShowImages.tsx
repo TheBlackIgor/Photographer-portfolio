@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+import { ImagePreview } from "@/components";
 import "./ShowImages.scss";
 
 import { apiUrl } from "@/constant";
@@ -19,21 +20,19 @@ export const ShowImages = ({
     <div className="images-container">
       {images
         ? images?.map((image, idx) => (
-            <img
-              key={idx}
-              src={image}
+            <ImagePreview
+              id={idx.toString()}
+              image={image}
               alt={`img${idx}`}
-              onClick={() => onImageClick(idx)}
-              onKeyDown={() => onImageClick(idx)}
+              onDelete={() => onImageClick(idx)}
             />
           ))
         : linkedImages?.map(image => (
-            <img
-              key={image.id}
-              src={`${apiUrl}/api/image/${image.album}/${image.id}`}
+            <ImagePreview
+              id={image.id}
+              image={`${apiUrl}/api/image/${image.album}/${image.id}`}
               alt={`img${image.id}`}
-              onClick={() => onImageClick(Number(image.id))}
-              onKeyDown={() => onImageClick(Number(image.id))}
+              onDelete={() => onImageClick(Number(image.id))}
             />
           ))}
     </div>
