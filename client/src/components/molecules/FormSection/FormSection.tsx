@@ -56,7 +56,6 @@ export const FormSection = ({
         <SelectImageModal
           isVisible={showSelectImageModal}
           close={() => setShowSelectImageModal(false)}
-          uploadedImages={[]}
         />
       </>
 

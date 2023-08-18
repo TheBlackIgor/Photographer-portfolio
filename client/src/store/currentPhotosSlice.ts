@@ -2,16 +2,16 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { PhotoI } from "@/types";
 
-interface InitialState {
+export interface CurrentPhotosI {
   photos: PhotoI[];
 }
 
 const currentPhotosSlice = createSlice({
-  name: "champions",
-  initialState: { photos: [] } as InitialState,
+  name: "currentPhotos",
+  initialState: { photos: [] } as CurrentPhotosI,
   reducers: {
     setPhotos(state, action) {
-      state.photos = [...action.payload.photos];
+      state.photos = [...action.payload];
     },
   },
 });

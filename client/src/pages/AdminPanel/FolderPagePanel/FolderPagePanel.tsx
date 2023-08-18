@@ -27,7 +27,6 @@ export const FolderPagePanel = () => {
       if (!(await getFolders()).includes(params.name))
         navigate("/czadowyPanel/settings");
       const data = await getFolder(params.name);
-      console.log(data);
       const header: HeaderDocumentI = data.find(
         document => document.id === "index"
       );
@@ -95,7 +94,7 @@ export const FolderPagePanel = () => {
         </Button>
         {sections.map((section, idx) => (
           <>
-            {idx !== 0 && <Spacer />}
+            {idx !== 0 && <Spacer key={idx} />}
             <FormSection
               key={idx}
               idx={idx}

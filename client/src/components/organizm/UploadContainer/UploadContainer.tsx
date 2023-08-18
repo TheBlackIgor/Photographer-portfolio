@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 
 import { deleteFile, getFiles, sendFiles } from "@/api";
 import { Button, ImagesDrop, ShowImages } from "@/components";
-import { PhotoI } from "@/types";
 import { concatenateFormData, removeByIndex } from "@/utils";
+import { useDispatch, useSelector } from "react-redux";
+import { StoreI } from "@/store/types";
+import { currentPhotosActions } from "@/store";
 
 interface UploadContainerI {
   url: string;
@@ -11,12 +13,16 @@ interface UploadContainerI {
 }
 
 export const UploadContainer = ({ url, title }: UploadContainerI) => {
+  const dispatch = useDispatch();
   const [images, setImages] = useState<string[]>([]);
   const [formData, setFormData] = useState(new FormData());
-  const [uploadedImages, setUploadedImages] = useState<PhotoI[]>([]);
+
+  const uploadedImages = useSelector(
+    (state: StoreI) => state.currentPhotos.photos
+  );
 
   const handleLoadImages = async () => {
-    setUploadedImages(await getFiles(url));
+    dispatch(currentPhotosActions.setPhotos(await getFiles(url)));
   };
 
   const handleDropImages = (form: FormData) => {
@@ -43,10 +49,13 @@ export const UploadContainer = ({ url, title }: UploadContainerI) => {
     await sendFiles(formData, url);
     setFormData(new FormData());
     setImages([]);
-    setTimeout(async () => setUploadedImages(await getFiles(url)), 1000);
+    setTimeout(
+      async () => dispatch(currentPhotosActions.setPhotos(await getFiles(url))),
+      1000
+    );
   };
   const handleRemoveImageFromServer = async (id: number) => {
-    setUploadedImages(await deleteFile(id, url));
+    dispatch(currentPhotosActions.setPhotos(await deleteFile(id, url)));
   };
 
   useEffect(() => {
@@ -58,13 +67,13 @@ export const UploadContainer = ({ url, title }: UploadContainerI) => {
     <>
       <h3>{title}</h3>
       <ImagesDrop onChange={handleDropImages} />
-      <ShowImages images={images} onImageClick={handleRemoveLocalImage} />
+      <ShowImages images={images} onDelete={handleRemoveLocalImage} />
       <Button type="submit" onClick={() => handleSendImages()}>
         Upload
       </Button>
       <ShowImages
         linkedImages={uploadedImages}
-        onImageClick={handleRemoveImageFromServer}
+        onDelete={handleRemoveImageFromServer}
       />
     </>
   );

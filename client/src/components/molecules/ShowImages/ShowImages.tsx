@@ -8,12 +8,14 @@ import { PhotoI } from "@/types";
 interface ShowImagesI {
   images?: string[];
   linkedImages?: PhotoI[];
-  onImageClick: (idx: number) => void;
+  onDelete?: (idx: number) => void;
+  onImageClick?: (idx: number) => void;
 }
 
 export const ShowImages = ({
   images,
   linkedImages,
+  onDelete,
   onImageClick,
 }: ShowImagesI) => {
   return (
@@ -21,18 +23,20 @@ export const ShowImages = ({
       {images
         ? images?.map((image, idx) => (
             <ImagePreview
+              key={idx}
               id={idx.toString()}
               image={image}
               alt={`img${idx}`}
-              onDelete={() => onImageClick(idx)}
+              onDelete={onDelete && (() => onDelete(idx))}
             />
           ))
         : linkedImages?.map(image => (
             <ImagePreview
+              key={image.id}
               id={image.id}
               image={`${apiUrl}/api/image/${image.album}/${image.id}`}
               alt={`img${image.id}`}
-              onDelete={() => onImageClick(Number(image.id))}
+              onDelete={onDelete && (() => onDelete(Number(image.id)))}
             />
           ))}
     </div>
