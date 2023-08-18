@@ -57,7 +57,7 @@ const createImage = async (
         }
         resolve(
           new Photo(
-            (new Date().getTime() + idx).toString(),
+            (new Date().getTime() + idx * 11).toString(),
             newPath,
             album,
             extension

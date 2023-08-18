@@ -6,9 +6,16 @@ interface PropsI {
   image: string;
   alt: string;
   onDelete?: (idx: number) => void;
+  onImageClick?: (idx: number) => void;
 }
 
-export const ImagePreview = ({ id, image, alt, onDelete }: PropsI) => {
+export const ImagePreview = ({
+  id,
+  image,
+  alt,
+  onDelete,
+  onImageClick,
+}: PropsI) => {
   return (
     <div className="image-preview">
       {onDelete && (
@@ -16,7 +23,12 @@ export const ImagePreview = ({ id, image, alt, onDelete }: PropsI) => {
           <DeleteIcon fill="white" />
         </button>
       )}
-      <img src={image} alt={alt} />
+      <img
+        onClick={onImageClick && (() => onImageClick(Number(id)))}
+        src={image}
+        style={{ cursor: onImageClick ? "pointer" : "default" }}
+        alt={alt}
+      />
     </div>
   );
 };

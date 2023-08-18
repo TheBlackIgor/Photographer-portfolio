@@ -28,6 +28,7 @@ export const ShowImages = ({
               image={image}
               alt={`img${idx}`}
               onDelete={onDelete && (() => onDelete(idx))}
+              onImageClick={onImageClick && (() => onImageClick(idx))}
             />
           ))
         : linkedImages?.map(image => (
@@ -37,6 +38,9 @@ export const ShowImages = ({
               image={`${apiUrl}/api/image/${image.album}/${image.id}`}
               alt={`img${image.id}`}
               onDelete={onDelete && (() => onDelete(Number(image.id)))}
+              onImageClick={
+                onImageClick && (() => onImageClick(Number(image.id)))
+              }
             />
           ))}
     </div>
