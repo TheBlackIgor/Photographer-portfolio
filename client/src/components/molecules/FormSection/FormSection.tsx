@@ -3,9 +3,12 @@ import "./FormSection.scss";
 import { useEffect, useRef, useState } from "react";
 
 import { DeleteIcon } from "@/assets";
-import { Button } from "@/components";
+import { Button, ImagePreview } from "@/components";
 import { SectionI } from "@/types";
 import { SelectImageModal } from "@/modals";
+import { apiUrl } from "@/constant";
+import { useParams } from "react-router";
+import { title } from "process";
 
 interface FormSectionI {
   idx: number;
@@ -23,25 +26,40 @@ export const FormSection = ({
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
   const [showSelectImageModal, setShowSelectImageModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
+  const [updated, setUpdated] = useState(false);
+
+  const params = useParams();
 
   useEffect(() => {
     if (titleRef.current && contentRef.current) {
       titleRef.current.value = data.title;
       contentRef.current.value = data.content;
+      setSelectedImage(data.image);
     }
+    titleRef.current?.addEventListener("input", () => setUpdated(true));
+    contentRef.current?.addEventListener("input", () => setUpdated(true));
   }, []);
 
   const handleUpdate = () => {
     update(idx, {
       title: titleRef.current?.value || "",
       content: contentRef.current?.value || "",
-      image: "",
+      image: selectedImage,
     });
+    setUpdated(false);
   };
 
   const handleDelete = () => {
     deleteSection(idx);
   };
+
+  const handleSelectImage = (idx: number) => {
+    setUpdated(true);
+    setSelectedImage(idx.toString());
+  };
+
+  console.log(updated);
 
   return (
     <div className="form-section-main">
@@ -53,13 +71,22 @@ export const FormSection = ({
         <Button type="simple" onClick={() => setShowSelectImageModal(true)}>
           Select photo
         </Button>
+        {selectedImage && (
+          <ImagePreview
+            id={selectedImage}
+            alt={"img" + selectedImage}
+            image={`${apiUrl}/api/image/${params.name}/${selectedImage}`}
+          />
+        )}
         <SelectImageModal
           isVisible={showSelectImageModal}
+          selectImage={handleSelectImage}
           close={() => setShowSelectImageModal(false)}
         />
       </>
 
-      <div>
+      <div className="flex-align-center">
+        {updated && <span style={{ color: "red" }}>Section was changed</span>}
         <Button type="simple" onClick={handleUpdate}>
           Update
         </Button>

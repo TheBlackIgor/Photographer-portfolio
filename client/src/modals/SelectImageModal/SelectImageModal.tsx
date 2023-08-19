@@ -6,11 +6,16 @@ import { useSelector } from "react-redux";
 interface NewFolderModalProps {
   isVisible: boolean;
   close: () => void;
+  selectImage: (idx: number) => void;
 }
 
-export const SelectImageModal = ({ isVisible, close }: NewFolderModalProps) => {
+export const SelectImageModal = ({
+  isVisible,
+  close,
+  selectImage,
+}: NewFolderModalProps) => {
   const handleSelectImage = async (idx: number) => {
-    console.log(idx);
+    selectImage(idx);
     close();
   };
 

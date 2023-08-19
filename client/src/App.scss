@@ -9,3 +9,12 @@
     padding-top: 60px;
   }
 }
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.flex-align-center {
+  display: flex;
+  align-items: center;
+}
