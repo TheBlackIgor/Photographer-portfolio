@@ -20,11 +20,11 @@ export const GalleryPage = () => {
       {folders.map(folder => (
         <Card
           key={folder.name}
-          to={"folders/" + folder.name}
+          to={folder.name}
           folderName={folder.name}
           img={folder.image}
         >
-          {folder.name}
+          {folder.title}
         </Card>
       ))}
     </div>

@@ -8,4 +8,5 @@ export interface PhotoI {
 export interface FolderI {
   name: string;
   image: string;
+  title: string;
 }
