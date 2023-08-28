@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./Carousel.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { StoreI } from "@/store/types";
-import { apiUrl } from "@/constant";
 import { getImagePath } from "@/utils";
 import { getFiles } from "@/api";
 import { currentPhotosActions } from "@/store";

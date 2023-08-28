@@ -5,7 +5,7 @@ const lightTheme = {
   textColor: "#212121",
   primaryColor: "#4f6cf0",
   navbar: {
-    background: "rgba(255, 255, 255, 0.2)",
+    background: "rgba(255, 255, 255, 0.5)",
   },
   boxshadow: {
     primary: "rgba(31, 38, 135, 0.37)",

@@ -50,6 +50,8 @@ export const MainPagePanel = () => {
               key={folder.name}
               icon={<FolderIcon />}
               to={"folders/" + folder.name}
+              folderName={folder.name}
+              img={folder.image}
             >
               {folder.name}
             </Card>

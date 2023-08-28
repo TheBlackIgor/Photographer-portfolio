@@ -14,14 +14,17 @@
       margin-left: 15px;
       display: flex;
       flex-direction: row;
-      column-gap: 10px;
+      column-gap: 30px;
       * {
         text-decoration: none;
-        color: black;
+        color: rgb(20, 20, 20);
+        font-size: 1.3em;
+        font-weight: 600;
       }
     }
     .active {
       text-decoration: underline;
+      font-size: 1.4em;
     }
   }
 

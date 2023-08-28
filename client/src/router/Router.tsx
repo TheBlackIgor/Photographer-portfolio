@@ -2,7 +2,13 @@ import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { ChadPanelLayout, MainPageLayout } from "@/layouts";
-import { FolderPagePanel, HomePage, MainPagePanel, PanelLogin } from "@/pages";
+import {
+  FolderPagePanel,
+  GalleryPage,
+  HomePage,
+  MainPagePanel,
+  PanelLogin,
+} from "@/pages";
 
 export const Router = () => {
   useEffect(() => {
@@ -13,7 +19,8 @@ export const Router = () => {
     <BrowserRouter>
       <Routes>
         <Route path="" element={<MainPageLayout />}>
-          <Route path="home" element={<HomePage />}></Route>
+          <Route path="home" element={<HomePage />} />
+          <Route path="gallery" element={<GalleryPage />}></Route>
         </Route>
 
         <Route path="czadowyPanel" element={<ChadPanelLayout />}>
