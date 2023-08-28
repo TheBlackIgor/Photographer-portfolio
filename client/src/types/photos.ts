@@ -6,6 +6,6 @@ export interface PhotoI {
 }
 
 export interface FolderI {
-  _id: string;
-  id: string;
+  name: string;
+  image: string;
 }

@@ -1,18 +1,26 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import "./FolderPagePanel.scss";
 
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 
-import { getFolder, getFolders, updateIndexDocument } from "@/api";
+import {
+  getFolder,
+  getFolders,
+  updateFolderImage,
+  updateIndexDocument,
+} from "@/api";
 import {
   Button,
   FormSection,
+  ImagePreview,
   Spacer,
   TextInput,
   UploadContainer,
 } from "@/components";
 import { HeaderDocumentI, SectionI } from "@/types";
+import { SelectImageModal } from "@/modals";
+import { apiUrl } from "@/constant";
 
 export const FolderPagePanel = () => {
   const params = useParams();
@@ -21,12 +29,17 @@ export const FolderPagePanel = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [sections, setSections] = useState<SectionI[]>([]);
+  const [selectedImage, setSelectedImage] = useState("");
+  const [showSelectImageModal, setShowSelectImageModal] = useState(false);
 
   const getData = async () => {
     if (params.name) {
-      if (!(await getFolders()).includes(params.name))
-        navigate("/czadowyPanel/settings");
+      const folders = await getFolders();
+      const thisFolder = folders.find(folder => folder.name === params.name);
+      if (!thisFolder) navigate("/czadowyPanel/settings");
       const data = await getFolder(params.name);
+      console.log(folders);
+      setSelectedImage(thisFolder!.image);
       const header: HeaderDocumentI = data.find(
         document => document.id === "index"
       );
@@ -67,6 +80,12 @@ export const FolderPagePanel = () => {
     setSections([...tempSections]);
   };
 
+  const handleSelectImage = async (idx: number) => {
+    if (params.name)
+      await updateFolderImage({ name: params.name, image: idx.toString() });
+    setSelectedImage(idx.toString());
+  };
+
   return (
     <main className="folder-page-main">
       <h2>Folder name: {params.name}</h2>
@@ -89,11 +108,29 @@ export const FolderPagePanel = () => {
           width="400px"
           multiline={true}
         />
+        <>
+          <Button type="simple" onClick={() => setShowSelectImageModal(true)}>
+            Select photo
+          </Button>
+          {selectedImage && (
+            <ImagePreview
+              id={selectedImage}
+              alt={"img" + selectedImage}
+              image={`${apiUrl}/api/image/${params.name}/${selectedImage}`}
+            />
+          )}
+          <SelectImageModal
+            isVisible={showSelectImageModal}
+            selectImage={handleSelectImage}
+            close={() => setShowSelectImageModal(false)}
+          />
+        </>
+        <Spacer />
         <Button type="add" onClick={handleCreateSection}>
           Create section
         </Button>
         {sections.map((section, idx) => (
-          <>
+          <Fragment key={idx}>
             {idx !== 0 && <Spacer key={idx} />}
             <FormSection
               key={idx}
@@ -102,7 +139,7 @@ export const FolderPagePanel = () => {
               update={handleUpdateSection}
               deleteSection={handleDeleteSection}
             />
-          </>
+          </Fragment>
         ))}
         <Button type="submit" onClick={handleSubmit}>
           Update

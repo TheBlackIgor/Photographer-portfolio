@@ -8,11 +8,14 @@ manageFolders.post("/api/folder/create", async (req, res) => {
 
   const folders = await findOne({ id: "index" }, "folders");
   if (!folders) {
-    await insertOne({ id: "index", folders: [body.name] }, "folders");
+    await insertOne(
+      { id: "index", folders: [{ name: body.name, image: "" }] },
+      "folders"
+    );
   } else {
     await updateOne(
       { id: "index" },
-      { folders: [...folders.folders, body.name] },
+      { folders: [...folders.folders, { name: body.name, image: "" }] },
       "folders"
     );
   }
@@ -41,6 +44,27 @@ manageFolders.patch("/api/folder/:name", async (req, res) => {
   await updateOne({ id: "index" }, { ...currentIndex, ...body }, name);
   res.end();
 });
+
+manageFolders.patch("/api/imageFolder", async (req, res) => {
+  const folders = await findOne({ id: "index" }, "folders");
+  const body = JSON.parse(req.body.body);
+
+  await updateOne(
+    { id: "index" },
+    {
+      folders: [
+        ...folders!.folders.filter(
+          (folder: { name: string }) => folder.name !== body.name
+        ),
+        { name: body.name, image: body.image },
+      ],
+    },
+    "folders"
+  );
+
+  res.end();
+});
+
 // manageFolders.get("/api/image/:folder/:id", async (req, res) => {
 //   const id = req.params.id;
 //   const folder = req.params.folder;
