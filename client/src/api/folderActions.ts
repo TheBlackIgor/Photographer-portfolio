@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { apiUrl } from "@/constant";
-import { PhotoI, SectionI } from "@/types";
+import { FolderI, PhotoI, SectionI } from "@/types";
 
 export const createFolder = async (body: unknown) => {
   await axios.post(apiUrl + "/api/folder/create", {
@@ -13,7 +13,7 @@ export const createFolder = async (body: unknown) => {
 };
 
 export const getFolders = async () => {
-  let folders: string[] = [];
+  let folders: FolderI[] = [];
   await axios
     .post(apiUrl + "/api/folders/get")
     .then(response => {
@@ -67,4 +67,16 @@ export const deleteFolder = async (id: number, url: string) => {
       // Handle error
     });
   return images;
+};
+
+export const updateFolderImage = async (document: {
+  name: string;
+  image: string;
+}) => {
+  await axios.patch(apiUrl + "/api/imageFolder", {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(document),
+  });
 };

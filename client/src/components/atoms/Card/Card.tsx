@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 
 interface CardProps {
   icon?: JSX.Element | null;
-  children: JSX.Element;
+  children: JSX.Element | string;
   to?: string;
 }
 
