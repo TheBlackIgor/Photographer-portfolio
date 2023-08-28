@@ -9,13 +9,21 @@ manageFolders.post("/api/folder/create", async (req, res) => {
   const folders = await findOne({ id: "index" }, "folders");
   if (!folders) {
     await insertOne(
-      { id: "index", folders: [{ name: body.name, image: "" }] },
+      {
+        id: "index",
+        folders: [{ name: body.name, image: "", title: body.title }],
+      },
       "folders"
     );
   } else {
     await updateOne(
       { id: "index" },
-      { folders: [...folders.folders, { name: body.name, image: "" }] },
+      {
+        folders: [
+          ...folders.folders,
+          { name: body.name, image: "", title: body.title },
+        ],
+      },
       "folders"
     );
   }
@@ -38,8 +46,26 @@ manageFolders.post("/api/folder/:name", async (req, res) => {
 });
 
 manageFolders.patch("/api/folder/:name", async (req, res) => {
+  const indexDoc = await findOne({ id: "index" }, "folders");
   const name = req.params.name;
   const body = JSON.parse(req.body.body);
+  const thisFolder = indexDoc!.folders.find(
+    (folder: { name: string }) => folder.name === name
+  );
+
+  await updateOne(
+    { id: "index" },
+    {
+      folders: [
+        ...indexDoc!.folders.filter(
+          (folder: { name: string }) => folder.name !== name
+        ),
+        { ...thisFolder, title: body.title },
+      ],
+    },
+    "folders"
+  );
+
   const currentIndex = await findOne({ id: "index" }, name);
   await updateOne({ id: "index" }, { ...currentIndex, ...body }, name);
   res.end();
@@ -48,6 +74,10 @@ manageFolders.patch("/api/folder/:name", async (req, res) => {
 manageFolders.patch("/api/imageFolder", async (req, res) => {
   const folders = await findOne({ id: "index" }, "folders");
   const body = JSON.parse(req.body.body);
+  console.log(folders);
+  const thisFolder = folders!.folders.find(
+    (folder: { name: string }) => folder.name === body.name
+  );
 
   await updateOne(
     { id: "index" },
@@ -56,7 +86,7 @@ manageFolders.patch("/api/imageFolder", async (req, res) => {
         ...folders!.folders.filter(
           (folder: { name: string }) => folder.name !== body.name
         ),
-        { name: body.name, image: body.image },
+        { ...thisFolder, image: body.image },
       ],
     },
     "folders"
