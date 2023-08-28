@@ -4,6 +4,7 @@ import "./ShowImages.scss";
 
 import { apiUrl } from "@/constant";
 import { PhotoI } from "@/types";
+import { getImagePath } from "@/utils";
 
 interface ShowImagesI {
   images?: string[];
@@ -35,7 +36,7 @@ export const ShowImages = ({
             <ImagePreview
               key={image.id}
               id={image.id}
-              image={`${apiUrl}/api/image/${image.album}/${image.id}`}
+              image={getImagePath(image)}
               alt={`img${image.id}`}
               onDelete={onDelete && (() => onDelete(Number(image.id)))}
               onImageClick={

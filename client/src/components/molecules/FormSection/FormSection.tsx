@@ -59,8 +59,6 @@ export const FormSection = ({
     setSelectedImage(idx.toString());
   };
 
-  console.log(updated);
-
   return (
     <div className="form-section-main">
       <label htmlFor="title">Title</label>
