@@ -13,6 +13,9 @@ const lightTheme = {
   border: {
     secondary: "rgba(172, 172, 172, 0.432)",
   },
+  cover: {
+    imageDark: "rgba(0, 0, 0, 0.25)",
+  },
 };
 
 const darkTheme = {
@@ -27,6 +30,9 @@ const darkTheme = {
   },
   border: {
     secondary: "rgba(255, 255, 255, 0.18)",
+  },
+  cover: {
+    imageDark: "rgba(0, 0, 0, 0.3)",
   },
 };
 

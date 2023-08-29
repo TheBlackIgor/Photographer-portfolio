@@ -1,5 +1,10 @@
 .gallery {
   &-main {
-    padding: 120px 30px 30px 120px;
+    padding: 120px 20px;
+    display: flex;
+    flex-direction: row;
+    column-gap: 40px;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 }

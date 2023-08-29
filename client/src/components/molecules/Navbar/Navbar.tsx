@@ -10,7 +10,7 @@ export const Navbar = () => {
       className="navbar-main"
       style={{
         backgroundColor: `${theme.navbar.background}`,
-        //   boxShadow: `0 8px 32px 0 ${theme.boxshadow.primary}`,
+        boxShadow: `0 8px 32px 0 ${theme.boxshadow.primary}`,
         //   borderBottom: `1px solid ${theme.border.secondary}`,
       }}
     >

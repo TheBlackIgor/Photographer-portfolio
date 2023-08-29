@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { ChadPanelLayout, MainPageLayout } from "@/layouts";
 import {
+  AlbumPage,
   FolderPagePanel,
   GalleryPage,
   HomePage,
@@ -20,7 +21,10 @@ export const Router = () => {
       <Routes>
         <Route path="" element={<MainPageLayout />}>
           <Route path="home" element={<HomePage />} />
-          <Route path="gallery" element={<GalleryPage />}></Route>
+          <Route path="gallery">
+            <Route index element={<GalleryPage />} />
+            <Route path=":name" element={<AlbumPage />} />
+          </Route>
         </Route>
 
         <Route path="czadowyPanel" element={<ChadPanelLayout />}>

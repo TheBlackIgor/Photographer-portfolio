@@ -38,7 +38,6 @@ export const FolderPagePanel = () => {
       const thisFolder = folders.find(folder => folder.name === params.name);
       if (!thisFolder) navigate("/czadowyPanel/settings");
       const data = await getFolder(params.name);
-      console.log(folders);
       setSelectedImage(thisFolder!.image);
       const header: HeaderDocumentI = data.find(
         document => document.id === "index"

@@ -1,0 +1,30 @@
+.album {
+  &-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 600px;
+    article {
+      font-size: 1.2em;
+      margin: 10px;
+    }
+  }
+  &-sections {
+    display: flex;
+    flex-direction: column;
+  }
+  &-section {
+    padding: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    column-gap: 60px;
+    img {
+      width: 40%;
+      min-width: 300px;
+    }
+  }
+}
