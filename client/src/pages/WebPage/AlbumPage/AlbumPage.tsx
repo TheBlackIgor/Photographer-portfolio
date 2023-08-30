@@ -19,6 +19,8 @@ export const AlbumPage = () => {
   const [sections, setSections] = useState<SectionI[]>([]);
   const [titleImage, setTitleImage] = useState("");
 
+  const [countLoaded, setCountLoaded] = useState(0);
+
   const getData = async () => {
     if (params.name) {
       const folders = await getFolders();
@@ -39,6 +41,12 @@ export const AlbumPage = () => {
   useEffect(() => {
     getData();
   }, []);
+
+  const handleLoadPicture = () => {
+    setCountLoaded(prev => prev + 1);
+    // if(countLoaded===images.length-1)
+    console.log(countLoaded);
+  };
 
   console.log(images);
 
@@ -79,9 +87,13 @@ export const AlbumPage = () => {
           </div>
         ))}
       </div>
-      <StackGrid columnWidth={150}>
+      <StackGrid columnWidth={300}>
         {images.map(image => (
-          <img key={image._id} src={getImagePath(image)} />
+          <img
+            key={image._id}
+            src={getImagePath(image, "thumb")}
+            onLoad={handleLoadPicture}
+          />
         ))}
       </StackGrid>
     </>

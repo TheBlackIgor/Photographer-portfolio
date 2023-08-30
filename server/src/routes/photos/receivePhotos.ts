@@ -3,6 +3,7 @@ import formidable from "formidable";
 import * as fs from "fs";
 import { Photo } from "../../models";
 import { insertArray } from "../../db";
+import sharp from "sharp";
 
 const UPLOAD_PATH = "./src/uploads";
 export const receivePhotos = Router();
@@ -47,7 +48,10 @@ const createImage = async (
       else splitedFilePath = file.path.split("\\");
 
       const newFileName = splitedFilePath[splitedFilePath.length - 1];
-      let newPath = `${UPLOAD_PATH}/${album}/${newFileName}`;
+      const thumbNewPath = `${UPLOAD_PATH}/${album}/thumb-${newFileName}`;
+      const newPath = `${UPLOAD_PATH}/${album}/${newFileName}`;
+
+      sharp(file.path).resize(1000).toFile(thumbNewPath);
 
       const extension = newFileName.split(".")[1];
 
@@ -59,6 +63,7 @@ const createImage = async (
           new Photo(
             (new Date().getTime() + idx * 11).toString(),
             newPath,
+            thumbNewPath,
             album,
             extension
           )
