@@ -36,7 +36,7 @@ export const ShowImages = ({
             <ImagePreview
               key={image.id}
               id={image.id}
-              image={getImagePath(image)}
+              image={getImagePath(image, "thumb")}
               alt={`img${image.id}`}
               onDelete={onDelete && (() => onDelete(Number(image.id)))}
               onImageClick={

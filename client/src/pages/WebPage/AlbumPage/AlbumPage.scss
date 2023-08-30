@@ -27,4 +27,18 @@
       min-width: 300px;
     }
   }
+  &-image {
+    cursor: pointer;
+    transition: all ease 0.6s;
+  }
+  &-image:hover {
+    transform: scale(1.035);
+  }
+  &-spacer {
+    height: 50px;
+  }
+  &-imageViewer {
+    z-index: 11;
+    position: fixed;
+  }
 }

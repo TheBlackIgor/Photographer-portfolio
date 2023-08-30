@@ -1,25 +1,37 @@
 import { getFiles, getFolder, getFolders } from "@/api";
-import { BackgroundImage } from "@/components";
+import { BackgroundImage, Loader, Spacer } from "@/components";
 import { apiUrl } from "@/constant";
 import { HeaderDocumentI, PhotoI, SectionI } from "@/types";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import StackGrid from "react-stack-grid";
+import ImageViewer from "react-simple-image-viewer";
 
 import "./AlbumPage.scss";
 import { getImagePath } from "@/utils";
+import { useTheme } from "@/theme";
 
 export const AlbumPage = () => {
   const params = useParams();
   const navigate = useNavigate();
+  const theme = useTheme();
 
+  const [header, setHeader] = useState<HeaderDocumentI>({
+    title: "",
+    description: "",
+    sections: [],
+    id: "",
+    _id: "",
+  });
+
+  const [currentImage, setCurrentImage] = useState(0);
   const [images, setImages] = useState<PhotoI[]>([]);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [sections, setSections] = useState<SectionI[]>([]);
   const [titleImage, setTitleImage] = useState("");
+  const [windowWith, setWindowWith] = useState(window.innerWidth);
 
   const [countLoaded, setCountLoaded] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [isViewerOpen, setIsViewerOpen] = useState(false);
 
   const getData = async () => {
     if (params.name) {
@@ -32,34 +44,56 @@ export const AlbumPage = () => {
         document => document.id === "index"
       );
       setImages(await getFiles(params.name));
-      setTitle(header.title);
-      setDescription(header.description);
-      setSections(header.sections);
+      setHeader(header);
     }
   };
 
   useEffect(() => {
     getData();
+    addEventListener("resize", () => {
+      setWindowWith(window.innerWidth);
+    });
   }, []);
 
-  const handleLoadPicture = () => {
-    setCountLoaded(prev => prev + 1);
-    // if(countLoaded===images.length-1)
-    console.log(countLoaded);
+  useMemo(() => {
+    if (countLoaded >= images.length && images.length > 0) setLoading(false);
+  }, [countLoaded]);
+
+  const openImageViewer = useCallback((index: number) => {
+    setCurrentImage(index);
+    setIsViewerOpen(true);
+  }, []);
+
+  const closeImageViewer = () => {
+    setIsViewerOpen(false);
   };
 
-  console.log(images);
-
+  const handleLoadPicture = () => setCountLoaded(prev => prev + 1);
   return (
     <>
+      {loading && <Loader message="Na fajne zdjęcia musisz chwilę poczekać" />}
+      {isViewerOpen && (
+        <div className="album-imageViewer">
+          <ImageViewer
+            src={images.map(image => getImagePath(image))}
+            currentIndex={currentImage}
+            disableScroll={false}
+            closeOnClickOutside={true}
+            onClose={closeImageViewer}
+            backgroundStyle={{
+              backgroundColor: theme.theme.cover.seeThroughtDark,
+            }}
+          />
+        </div>
+      )}
       <BackgroundImage src={`${apiUrl}/api/image/${params.name}/${titleImage}`}>
         <div className="album-title">
-          <h1>{title}</h1>
-          <article>{description}</article>
+          <h1>{header!.title}</h1>
+          <article>{header!.description}</article>
         </div>
       </BackgroundImage>
       <div className="album-sections">
-        {sections.map((section, index) => (
+        {header!.sections.map((section, index) => (
           <div key={index} className="album-section">
             {index % 2 === 0 ? (
               <>
@@ -87,11 +121,14 @@ export const AlbumPage = () => {
           </div>
         ))}
       </div>
-      <StackGrid columnWidth={300}>
-        {images.map(image => (
+      {!header!.sections.length && <div className="album-spacer" />}
+      <StackGrid columnWidth={window.innerWidth < 620 ? 150 : 300}>
+        {images.map((image, index) => (
           <img
+            className="album-image"
             key={image._id}
             src={getImagePath(image, "thumb")}
+            onClick={() => openImageViewer(index)}
             onLoad={handleLoadPicture}
           />
         ))}

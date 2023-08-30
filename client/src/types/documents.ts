@@ -1,7 +1,7 @@
 export interface HeaderDocumentI {
   _id: string;
   id: string;
-  sections: SectionI[]; // TODO type for sections
+  sections: SectionI[];
   title: string;
   description: string;
 }

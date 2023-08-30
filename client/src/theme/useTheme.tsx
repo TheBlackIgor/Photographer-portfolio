@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 const lightTheme = {
-  backgroundColor: "#e8e8e8",
+  backgroundColor: "#fff",
   textColor: "#212121",
   primaryColor: "#4f6cf0",
   navbar: {
@@ -15,6 +15,7 @@ const lightTheme = {
   },
   cover: {
     imageDark: "rgba(0, 0, 0, 0.25)",
+    seeThroughtDark: "rgba(0, 0, 0, 0.5)",
   },
 };
 
@@ -33,6 +34,7 @@ const darkTheme = {
   },
   cover: {
     imageDark: "rgba(0, 0, 0, 0.3)",
+    seeThroughtDark: "rgba(0, 0, 0, 0.5)",
   },
 };
 

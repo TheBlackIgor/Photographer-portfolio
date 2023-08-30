@@ -45,6 +45,7 @@
     "react-redux": "^8.1.2",
     "react-router": "^6.13.0",
     "react-router-dom": "^6.13.0",
+    "react-simple-image-viewer": "^1.2.2",
     "react-stack-grid": "^0.7.1",
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.2",
