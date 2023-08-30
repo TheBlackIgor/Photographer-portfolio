@@ -86,12 +86,16 @@ export const AlbumPage = () => {
           />
         </div>
       )}
-      <BackgroundImage src={`${apiUrl}/api/image/${params.name}/${titleImage}`}>
-        <div className="album-title">
-          <h1>{header!.title}</h1>
-          <article>{header!.description}</article>
-        </div>
-      </BackgroundImage>
+      {titleImage && (
+        <BackgroundImage
+          src={`${apiUrl}/api/image/${params.name}/${titleImage}`}
+        >
+          <div className="album-title">
+            <h1>{header!.title}</h1>
+            <article>{header!.description}</article>
+          </div>
+        </BackgroundImage>
+      )}
       <div className="album-sections">
         {header!.sections.map((section, index) => (
           <div key={index} className="album-section">

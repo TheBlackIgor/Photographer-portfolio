@@ -16,16 +16,16 @@
       flex-direction: row;
       column-gap: 30px;
       position: relative;
-      * {
+      > a {
         text-decoration: none;
         color: rgb(20, 20, 20);
         font-size: 1.3em;
         font-weight: 600;
         transition: all ease 0.6s;
       }
-      *:hover {
-        font-weight: 700;
-        transform: scale(1.1);
+      > a::after {
+      }
+      > a:hover {
       }
     }
     .active {
