@@ -14,7 +14,9 @@ export const Navbar = () => {
         //   borderBottom: `1px solid ${theme.border.secondary}`,
       }}
     >
-      <div className="navbar-logo flex-center">Logo</div>
+      <div className="navbar-logo flex-center">
+        <img src="/logo.jpg" />
+      </div>
       <nav>
         <NavLink
           to="/home"

@@ -13,7 +13,7 @@ sendPhotos.post("/api/get/:folder", async (req, res) => {
 });
 
 sendPhotos.get("/api/image/:folder/:id", async (req, res) => {
-  const id = req.params.id;
+  const id = req.params.id.split(".")[0];
   const folder = req.params.folder;
   const photo = await findOne({ id: id }, folder);
 
@@ -35,7 +35,7 @@ sendPhotos.get("/api/image/:folder/:id", async (req, res) => {
 });
 
 sendPhotos.get("/api/thumb/:folder/:id", async (req, res) => {
-  const id = req.params.id;
+  const id = req.params.id.split(".")[0];
   const folder = req.params.folder;
   const photo = await findOne({ id: id }, folder);
 
