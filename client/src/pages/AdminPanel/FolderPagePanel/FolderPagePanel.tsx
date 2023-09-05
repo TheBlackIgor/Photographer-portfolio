@@ -132,7 +132,6 @@ export const FolderPagePanel = () => {
           <Fragment key={idx}>
             {idx !== 0 && <Spacer key={idx} />}
             <FormSection
-              key={idx}
               idx={idx}
               data={section}
               update={handleUpdateSection}

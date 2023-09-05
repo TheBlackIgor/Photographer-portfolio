@@ -1,7 +1,7 @@
 import { getFiles, getFolder, getFolders } from "@/api";
-import { BackgroundImage, Loader, Spacer } from "@/components";
+import { BackgroundImage, Loader } from "@/components";
 import { apiUrl } from "@/constant";
-import { HeaderDocumentI, PhotoI, SectionI } from "@/types";
+import { HeaderDocumentI, PhotoI } from "@/types";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import StackGrid from "react-stack-grid";
