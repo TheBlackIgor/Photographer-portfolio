@@ -12,6 +12,12 @@ export const ChadPanelLayout = () => {
   useEffect(() => {
     checkToken();
   }, [location.pathname, localStorage.getItem("token")]);
+  console.log(location.pathname);
+  const path = location.pathname
+    .split("/")
+    .filter(i => i.length)
+    .reverse()[0]
+    .toLowerCase();
 
   const checkToken = async () => {
     const token = localStorage.getItem("token");
@@ -19,10 +25,7 @@ export const ChadPanelLayout = () => {
     if (token === null || !tokenValid) {
       console.log("nieprawidłowy token");
       navigate("/czadowyPanel/login");
-    } else if (
-      location.pathname === "/czadowyPanel/login" ||
-      location.pathname === "/czadowyPanel"
-    ) {
+    } else if (path === "czadowypanel" || path === "login") {
       navigate("/czadowyPanel/settings");
     }
   };

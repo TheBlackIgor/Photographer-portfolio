@@ -25,7 +25,9 @@ export const Card = ({
       <article className="card" onClick={() => navigate(to)}>
         <div className="card-imgbox">
           <div className="card-img">
-            {img && <img src={`${apiUrl}/api/image/${folderName}/${img}`} />}
+            {img && (
+              <img src={`${apiUrl}/api/thumb/${folderName}/${img}`} alt={img} />
+            )}
           </div>
         </div>
         <div className="card-details">

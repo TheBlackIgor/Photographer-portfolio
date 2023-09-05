@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
 import "./GalleryPage.scss";
-import { FolderI } from "@/types";
+
+import { useEffect, useState } from "react";
+
 import { getFolders } from "@/api";
 import { Card } from "@/components";
+import { FolderI } from "@/types";
 
 export const GalleryPage = () => {
   const [folders, setFolders] = useState<FolderI[]>([]);
