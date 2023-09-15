@@ -1,0 +1,28 @@
+.aboutMe {
+  &-main {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+  &-container {
+    padding: 120px 24px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    max-width: 700px;
+    min-width: 300px;
+  }
+  &-img {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    max-height: 500px;
+    img {
+      height: auto;
+      max-height: 100vh;
+      min-width: 300px;
+    }
+  }
+}
