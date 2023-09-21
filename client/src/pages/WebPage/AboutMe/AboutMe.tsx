@@ -24,11 +24,16 @@ export const AboutMe = () => {
             stworzyć niezapomniane wspomnienia w formie pięknych fotografii i
             filmów.
           </p>
+          <br />
         </article>
       </section>
-      <div className="aboutMe-img">
-        <img src="/ja.jpg" alt="me" />
-        <p>A oto ja (tle to mój przyjaciel Piotr :3)</p>
+      <div className="aboutMe-card">
+        <div className="aboutMe-first-content">
+          <img src="/ja.jpg" alt="me" />
+        </div>
+        <div className="aboutMe-second-content">
+          <span>A oto ja (tle to mój przyjaciel Piotr :3)</span>
+        </div>
       </div>
     </div>
   );
