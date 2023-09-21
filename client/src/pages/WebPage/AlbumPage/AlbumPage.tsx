@@ -92,7 +92,9 @@ export const AlbumPage = () => {
         >
           <div className="album-title">
             <h1>{header!.title}</h1>
-            <article>{header!.description}</article>
+            <article
+              dangerouslySetInnerHTML={{ __html: header!.description }}
+            />
           </div>
         </BackgroundImage>
       )}
@@ -107,14 +109,18 @@ export const AlbumPage = () => {
                 />
                 <div className="album-section-content">
                   <h2>{section.title}</h2>
-                  <article>{section.content}</article>
+                  <article
+                    dangerouslySetInnerHTML={{ __html: section.content }}
+                  />
                 </div>
               </>
             ) : (
               <>
                 <div className="album-section-content">
                   <h2>{section.title}</h2>
-                  <article>{section.content}</article>
+                  <article
+                    dangerouslySetInnerHTML={{ __html: section.content }}
+                  />
                 </div>
                 <img
                   src={`${apiUrl}/api/image/${params.name}/${section.image}`}
