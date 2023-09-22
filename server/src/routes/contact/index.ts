@@ -29,8 +29,8 @@ contactRoutes.post("/api/contact", async (req, res) => {
     await transporter.sendMail({
       from: "asystentreussa@gmail.com", // Sender's email address
       to: body.email, // Recipient's email address
-      subject: "Mail wysłany pomyślnie",
-      text: "Dziękuje piękne za skontaktowanie się,\n postaram się odezwać jak tylko będę miał chwilę",
+      subject: "Reussgraphy reply",
+      text: "Dziękuje piękne za skontaktowanie się, postaram się odezwać jak tylko będę miał chwilę",
     });
 
     res.end(

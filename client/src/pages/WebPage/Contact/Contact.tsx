@@ -9,11 +9,14 @@ export const Contact = () => {
   const [email, setEmail] = useState("");
   const [content, setContent] = useState("");
   const [message, setMessage] = useState("");
+  const [disableForm, setDisableForm] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    setDisableForm(true);
     e.preventDefault();
     setMessage(await sendEmail({ email, content }));
     setTimeout(() => setMessage(""), 8000);
+    setDisableForm(false);
   };
 
   return (
@@ -33,7 +36,9 @@ export const Contact = () => {
             placeholder="Your message"
             onChange={e => setContent(e.target.value)}
           />
-          <Button type="submit">Wyślij</Button>
+          <Button disabled={disableForm} type="submit">
+            Wyślij
+          </Button>
         </form>
         <h4>{message}</h4>
       </div>
