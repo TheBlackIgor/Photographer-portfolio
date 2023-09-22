@@ -3,8 +3,11 @@
     width: 100%;
     height: 100vh;
     padding: 20px;
+    display: flex;
+    flex-direction: column;
 
     form {
+      transition: all ease 0.5s;
       &.title {
         font-size: 1.6em;
       }
@@ -30,6 +33,9 @@
         font-size: 16px;
         resize: none;
       }
+    }
+    > h4 {
+      transition: all ease 0.5s;
     }
   }
 }

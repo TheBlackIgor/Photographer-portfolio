@@ -1,4 +1,5 @@
-export * from "./ChadPanelActions";
+export * from "./chadPanelActions";
+export * from "./contactContact";
 export * from "./filesActions";
 export * from "./folderActions";
-export * from "./LoginAction";
+export * from "./loginActions";
