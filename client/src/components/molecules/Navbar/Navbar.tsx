@@ -1,6 +1,9 @@
+/* eslint-disable jsx-a11y/alt-text */
 import "./Navbar.scss";
-import { useTheme } from "@/theme";
+
 import { NavLink } from "react-router-dom";
+
+import { useTheme } from "@/theme";
 
 export const Navbar = () => {
   const { theme } = useTheme();
@@ -11,7 +14,6 @@ export const Navbar = () => {
       style={{
         backgroundColor: `${theme.navbar.background}`,
         boxShadow: `0 8px 32px 0 ${theme.boxshadow.primary}`,
-        //   borderBottom: `1px solid ${theme.border.secondary}`,
       }}
     >
       <div className="navbar-logo flex-center">

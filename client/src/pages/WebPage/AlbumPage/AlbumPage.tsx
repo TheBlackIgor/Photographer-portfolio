@@ -1,15 +1,20 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import "./AlbumPage.scss";
+
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useNavigate, useParams } from "react-router";
+import ImageViewer from "react-simple-image-viewer";
+import StackGrid from "react-stack-grid";
+
 import { getFiles, getFolder, getFolders } from "@/api";
 import { BackgroundImage, Loader } from "@/components";
 import { apiUrl } from "@/constant";
-import { HeaderDocumentI, PhotoI } from "@/types";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useNavigate, useParams } from "react-router";
-import StackGrid from "react-stack-grid";
-import ImageViewer from "react-simple-image-viewer";
-
-import "./AlbumPage.scss";
-import { getImagePath } from "@/utils";
 import { useTheme } from "@/theme";
+import { HeaderDocumentI, PhotoI } from "@/types";
+import { getImagePath } from "@/utils";
 
 export const AlbumPage = () => {
   const params = useParams();
@@ -57,7 +62,7 @@ export const AlbumPage = () => {
 
   useMemo(() => {
     if (countLoaded >= images.length && images.length > 0) setLoading(false);
-  }, [countLoaded]);
+  }, [countLoaded, images.length]);
 
   const openImageViewer = useCallback((index: number) => {
     setCurrentImage(index);
@@ -79,10 +84,10 @@ export const AlbumPage = () => {
             currentIndex={currentImage}
             disableScroll={false}
             closeOnClickOutside={true}
-            onClose={closeImageViewer}
             backgroundStyle={{
               backgroundColor: theme.theme.cover.seeThroughtDark,
             }}
+            onClose={closeImageViewer}
           />
         </div>
       )}
@@ -91,15 +96,15 @@ export const AlbumPage = () => {
           src={`${apiUrl}/api/image/${params.name}/${titleImage}`}
         >
           <div className="album-title">
-            <h1>{header!.title}</h1>
+            <h1>{header?.title}</h1>
             <article
-              dangerouslySetInnerHTML={{ __html: header!.description }}
+              dangerouslySetInnerHTML={{ __html: header?.description }}
             />
           </div>
         </BackgroundImage>
       )}
       <div className="album-sections">
-        {header!.sections.map((section, index) => (
+        {header?.sections.map((section, index) => (
           <div key={index} className="album-section">
             {index % 2 === 0 ? (
               <>
@@ -131,12 +136,12 @@ export const AlbumPage = () => {
           </div>
         ))}
       </div>
-      {!header!.sections.length && <div className="album-spacer" />}
+      {!header?.sections.length && <div className="album-spacer" />}
       <StackGrid columnWidth={window.innerWidth < 620 ? 150 : 300}>
         {images.map((image, index) => (
           <img
-            className="album-image"
             key={image._id}
+            className="album-image"
             src={getImagePath(image, "thumb")}
             onClick={() => openImageViewer(index)}
             onLoad={handleLoadPicture}
