@@ -12,6 +12,7 @@ export const Contact = () => {
   const [disableForm, setDisableForm] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    setMessage("Wysyłanie...");
     setDisableForm(true);
     e.preventDefault();
     setMessage(await sendEmail({ email, content }));
@@ -48,6 +49,8 @@ export const Contact = () => {
         <a
           href="https://www.instagram.com/reussgraphy/"
           className="custom-button"
+          target="_blank"
+          rel="noreferrer"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

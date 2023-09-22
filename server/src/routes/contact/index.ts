@@ -30,7 +30,7 @@ contactRoutes.post("/api/contact", async (req, res) => {
       from: "asystentreussa@gmail.com", // Sender's email address
       to: body.email, // Recipient's email address
       subject: "Reussgraphy reply",
-      text: "Dziękuje piękne za skontaktowanie się, postaram się odezwać jak tylko będę miał chwilę",
+      text: "Dziękuje pięknie kontakt, skontakuję się tak szybko jak to możliwe",
     });
 
     res.end(
