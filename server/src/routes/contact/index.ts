@@ -18,20 +18,20 @@ contactRoutes.post("/api/contact", async (req, res) => {
       auth,
     });
 
-    // // Send the email
-    // await transporter.sendMail({
-    //   from: "asystentreussa@gmail.com", // Sender's email address
-    //   to: "michal.reuss15@gmail.com", // Recipient's email address
-    //   subject: "Nowa wiadomość od " + body.email,
-    //   text: body.content,
-    // });
+    // Send the email
+    await transporter.sendMail({
+      from: "asystentreussa@gmail.com", // Sender's email address
+      to: "michal.reuss15@gmail.com", // Recipient's email address
+      subject: "Nowa wiadomość od " + body.email,
+      text: body.content,
+    });
 
-    // await transporter.sendMail({
-    //   from: "asystentreussa@gmail.com", // Sender's email address
-    //   to: body.email, // Recipient's email address
-    //   subject: "Mail wysłany pomyślnie",
-    //   text: "Dziękuje piękne za skontaktowanie się,\n postaram się odezwać jak tylko będę miał chwilę",
-    // });
+    await transporter.sendMail({
+      from: "asystentreussa@gmail.com", // Sender's email address
+      to: body.email, // Recipient's email address
+      subject: "Mail wysłany pomyślnie",
+      text: "Dziękuje piękne za skontaktowanie się,\n postaram się odezwać jak tylko będę miał chwilę",
+    });
 
     res.end(
       JSON.stringify({
