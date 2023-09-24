@@ -7,6 +7,10 @@ import { contactRoutes } from "./contact";
 
 export const routes = express.Router();
 
+routes.get("/api/workingCheck", (req, res) => {
+  res.send("API working");
+});
+
 routes.use(routesAdmin);
 routes.use(receivePhotos);
 routes.use(sendPhotos);

@@ -1,7 +1,10 @@
-import { apiUrl } from "@/constant";
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import "./Card.scss";
 
 import { useNavigate } from "react-router";
+
+import { apiUrl } from "@/constant";
 
 interface CardProps {
   icon?: JSX.Element | null;
@@ -26,7 +29,10 @@ export const Card = ({
         <div className="card-imgbox">
           <div className="card-img">
             {img && (
-              <img src={`${apiUrl}/api/thumb/${folderName}/${img}`} alt={img} />
+              <img
+                src={`${apiUrl}/api/thumb/${folderName}/${img}.jpg`}
+                alt={img}
+              />
             )}
           </div>
         </div>

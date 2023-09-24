@@ -30,6 +30,7 @@ sendPhotos.get("/api/image/:folder/:id", async (req, res) => {
 
   fs.readFile(photo.path, (err, content) => {
     // Serving the image
+    console.log(photo.path);
     res.end(content);
   });
 });

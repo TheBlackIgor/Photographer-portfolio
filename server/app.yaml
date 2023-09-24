@@ -1,0 +1,11 @@
+runtime: nodejs18
+
+instance_class: F2
+
+env_variables:
+  MongoDB_ACCESS="mongodb+srv://TheBlackIgro:znid3895@michalreussportfolio.eiunlxr.mongodb.net/"
+  JWT_KEY="dskhfakasjdbfuadbvcuhabd4h5v123k41u42vjvdsa"
+  USRNAME="reussPajac"
+  PASSWORD="8-$2b$08$WE2R2wg/DgggoWVGJcCLrug1Hzz3LPxxi5dqJ7gyW/.ExtBjFxXXm"
+  EMAIL_PASSWORD="vtde cjkc ckwe kdhp"
+  PORT=8080
