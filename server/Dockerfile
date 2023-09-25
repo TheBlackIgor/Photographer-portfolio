@@ -1,15 +1,15 @@
-        FROM node:18-alpine
+FROM node:18-alpine
 
-        WORKDIR /usr/src/index
+WORKDIR /usr/src/index
 
-        COPY package\*.json ./
+COPY package\*.json ./
 
-        RUN npm install
+RUN npm install
 
-        COPY . .
+COPY . .
 
-        RUN npm run build
+RUN npm run build
 
-        EXPOSE 8080
+EXPOSE 8080
 
-        CMD [ "npm", "start" ]
+CMD [ "npm", "start" ]

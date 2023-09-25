@@ -44,6 +44,7 @@ const createImage = async (
       fs.mkdirSync(UPLOAD_PATH + "/" + album, { recursive: true });
     try {
       let splitedFilePath: string[] = [];
+      console.log(file.path);
       if (file.path.includes("/")) splitedFilePath = file.path.split("/");
       else splitedFilePath = file.path.split("\\");
 
