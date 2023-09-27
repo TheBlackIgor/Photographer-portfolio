@@ -58,7 +58,6 @@ exports.sendPhotos.get("/api/image/:folder/:id", (req, res) => __awaiter(void 0,
     });
     fs.readFile(photo.path, (err, content) => {
         // Serving the image
-        console.log(photo.path);
         res.end(content);
     });
 }));

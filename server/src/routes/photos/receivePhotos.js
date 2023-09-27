@@ -74,16 +74,16 @@ const createImage = (file, album, idx) => __awaiter(void 0, void 0, void 0, func
             fs.mkdirSync(UPLOAD_PATH + "/" + album, { recursive: true });
         try {
             let splitedFilePath = [];
-            if (file.path.includes("/"))
-                splitedFilePath = file.path.split("/");
+            if (file[0].filepath.includes("/"))
+                splitedFilePath = file[0].filepath.split("/");
             else
-                splitedFilePath = file.path.split("\\");
+                splitedFilePath = file[0].filepath.split("\\");
             const newFileName = splitedFilePath[splitedFilePath.length - 1];
             const thumbNewPath = `${UPLOAD_PATH}/${album}/thumb-${newFileName}`;
             const newPath = `${UPLOAD_PATH}/${album}/${newFileName}`;
-            (0, sharp_1.default)(file.path).resize(1000).toFile(thumbNewPath);
+            (0, sharp_1.default)(file[0].filepath).resize(1000).toFile(thumbNewPath);
             const extension = newFileName.split(".")[1];
-            fs.writeFile(newPath, fs.readFileSync(file.path), function (err) {
+            fs.writeFile(newPath, fs.readFileSync(file[0].filepath), function (err) {
                 if (err) {
                     return console.log(err);
                 }
