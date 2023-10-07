@@ -9,7 +9,7 @@ import path from "path";
 const app = express();
 require("dotenv").config();
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 80;
 
 app.use(cors());
 app.use(bodyParser.urlencoded());
