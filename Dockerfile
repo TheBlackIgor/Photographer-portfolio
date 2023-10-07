@@ -7,7 +7,7 @@ ENV JWT_KEY="dskhfakasjdbfuadbvcuhabd4h5v123k41u42vjvdsa"
 ENV USRNAME="reussPajac"
 ENV PASSWORD="8-$2b$08$WE2R2wg/DgggoWVGJcCLrug1Hzz3LPxxi5dqJ7gyW/.ExtBjFxXXm"
 ENV EMAIL_PASSWORD="vtde cjkc ckwe kdhp"
-ENV PORT=8080
+ENV PORT=80
 
 COPY package\*.json ./
 
@@ -17,6 +17,6 @@ COPY . .
 
 RUN npm run build
 
-EXPOSE 8080
+EXPOSE 80
 
 CMD [ "npm", "start" ]
