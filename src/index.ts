@@ -3,6 +3,7 @@ import cors from "cors";
 import { connectToMongoDB } from "./db";
 import { MongoClientOptions } from "mongodb";
 import { routes } from "./routes";
+
 import * as bodyParser from "body-parser";
 import path from "path";
 const app = express();
