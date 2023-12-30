@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import formidable from "formidable";
 import { Transform } from "stream";
 import { insertArray } from "../../db";
+import sharp from "sharp";
 
 export const receivePhotos = Router();
 
@@ -38,7 +39,7 @@ receivePhotos.post("/api/upload/:folder", async (req, res) => {
     console.log(err.message);
   });
 
-  form.on("fileBegin", (_formName: any, file: any) => {
+  form.on("fileBegin", async (_formName: any, file: any) => {
     console.log(file);
     const id = uuidv4();
     const extension = file.newFilename.split(".").pop();
@@ -59,12 +60,41 @@ receivePhotos.post("/api/upload/:folder", async (req, res) => {
         finishProcessing();
       });
 
+      /**
+       * Upload the file to S3
+       */
       new Upload({
         client: s3Client,
         params: {
           Bucket: "reussgraphy",
           Key: newPath,
           Body: this._writeStream,
+          ACL: "public-read",
+        },
+      })
+        .done()
+        .then(() => {
+          this.emit("successUpload", {
+            name: "successUpload",
+            value: "File uploaded successfully",
+          });
+          this._writeStream.end();
+        })
+        .catch((err) => {
+          console.log(err);
+          this.emit("error", err);
+        });
+
+      /**
+       * Upload the thumbnail to S3
+       */
+      new Upload({
+        client: s3Client,
+        params: {
+          Bucket: "reussgraphy",
+          Key: thumbNewPath,
+          Body: this._writeStream.pipe(sharp().resize(1000).jpeg()),
+          ACL: "public-read",
         },
       })
         .done()

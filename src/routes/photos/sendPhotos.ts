@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { deleteOne, findAll, findOne } from "../../db";
 import * as fs from "fs";
+import { s3Client } from "../../aws";
 
 export const sendPhotos = Router();
 
@@ -9,62 +10,35 @@ sendPhotos.post("/api/get/:folder", async (req, res) => {
   const photos = (await findAll(folder))?.filter(
     (document) => document.id !== "index"
   );
+
   res.send(photos);
-});
-
-sendPhotos.get("/api/image/:folder/:id", async (req, res) => {
-  const id = req.params.id.split(".")[0];
-  const folder = req.params.folder;
-  const photo = await findOne({ id: id }, folder);
-
-  if (!photo) {
-    res.end();
-    return;
-  }
-  const stat = fs.statSync(photo.path);
-
-  res.writeHead(200, {
-    "Content-Type": "image/" + photo.extension,
-    "Content-Length": stat.size,
-  });
-
-  fs.readFile(photo.path, (err, content) => {
-    // Serving the image
-    res.end(content);
-  });
-});
-
-sendPhotos.get("/api/thumb/:folder/:id", async (req, res) => {
-  const id = req.params.id.split(".")[0];
-  const folder = req.params.folder;
-  const photo = await findOne({ id: id }, folder);
-
-  if (!photo) {
-    res.end();
-    return;
-  }
-
-  fs.readFile(photo.thumbPath, (err, content) => {
-    // Serving the image
-    res.end(content);
-  });
 });
 
 sendPhotos.delete("/api/image/:folder/:id", async (req, res) => {
   const id = req.params.id;
   const folder = req.params.folder;
-
+  console.log(id, folder);
   const deletedFile = await deleteOne({ id: id }, folder);
   if (!deletedFile) {
     res.end();
     return;
   }
 
-  fs.unlink(deletedFile.path, (error) => {
-    if (error) return;
+  const params = {
+    Bucket: "reusgraphy",
+    Key: `${deletedFile.path}`,
+  };
+
+  s3Client.deleteObject(params, (err: any, data: any) => {
+    if (err) console.log(err, err.stack);
+    else console.log(data);
   });
-  fs.unlink(deletedFile.thumbPath, (error) => {
-    if (error) return;
+
+  params.Key = `${deletedFile.thumbPath}`;
+
+  s3Client.deleteObject(params, (err: any, data: any) => {
+    if (err) console.log(err, err.stack);
+    else console.log(data);
   });
 
   const photos = (await findAll(folder))?.filter(
