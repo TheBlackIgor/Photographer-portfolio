@@ -11,7 +11,11 @@ require("dotenv").config();
 
 const port = process.env.PORT || 80;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://reussgraphy.web.app",
+  })
+);
 app.use(bodyParser.urlencoded());
 app.use(express.static(__dirname + "/static"));
 app.use(express.static("public"));
