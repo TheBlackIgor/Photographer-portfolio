@@ -25,7 +25,7 @@ sendPhotos.delete("/api/image/:folder/:id", async (req, res) => {
   }
 
   const params = {
-    Bucket: "reusgraphy",
+    Bucket: "reussgraphy",
     Key: `${deletedFile.path}`,
   };
 
