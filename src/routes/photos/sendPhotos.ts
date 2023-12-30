@@ -43,12 +43,6 @@ sendPhotos.get("/api/thumb/:folder/:id", async (req, res) => {
     res.end();
     return;
   }
-  const stat = fs.statSync(photo.thumbPath);
-
-  res.writeHead(200, {
-    "Content-Type": "image/" + photo.extension,
-    "Content-Length": stat.size,
-  });
 
   fs.readFile(photo.thumbPath, (err, content) => {
     // Serving the image

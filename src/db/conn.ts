@@ -27,6 +27,7 @@ export const insertOne = (object: any, collection: string) => {
 };
 
 export const insertArray = (objects: any[], collection: string) => {
+  console.log(objects);
   objects.forEach(
     (object) => db && db.collection(collection).insertOne(object)
   );

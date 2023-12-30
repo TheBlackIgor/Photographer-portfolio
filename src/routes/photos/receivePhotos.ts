@@ -1,77 +1,84 @@
 import { Router } from "express";
-import formidable from "formidable";
-import * as fs from "fs";
 import { Photo } from "../../models";
+import { Upload } from "@aws-sdk/lib-storage";
+import { s3Client } from "../../aws";
+import { v4 as uuidv4 } from "uuid";
+import formidable from "formidable";
+import { Transform } from "stream";
 import { insertArray } from "../../db";
-import sharp from "sharp";
 
-const UPLOAD_PATH = "./src/uploads";
 export const receivePhotos = Router();
 
-receivePhotos.post("/api/upload/:folder", (req, res) => {
+receivePhotos.post("/api/upload/:folder", async (req, res) => {
   const form = formidable({ multiples: true, keepExtensions: true });
   const response: Photo[] = [];
   const folder = req.params.folder;
 
+  // Counter to keep track of the number of files being processed
+  let filesProcessed = 0;
+
+  // Callback to handle the completion of processing all files
+
+  let length = 0;
+
   form.parse(req, async (err: any, fields: any, files: any) => {
-    const keys = Object.keys(files);
-    if (keys.length > 0) {
-      const promises = keys.map(async (key, idx) => {
-        return createImage(files[key], folder, idx);
+    length = Object.keys(files).length;
+  });
+
+  const finishProcessing = () => {
+    // Check if all files have been processed
+    if (filesProcessed === length) {
+      // All files have been processed, perform any final actions here
+      insertArray(response, folder);
+      res.json(response);
+    }
+  };
+
+  form.on("error", (err: any) => {
+    console.log(err.message);
+  });
+
+  form.on("fileBegin", (_formName: any, file: any) => {
+    console.log(file);
+    const id = uuidv4();
+    const extension = file.newFilename.split(".").pop();
+    const thumbNewPath = `${folder}/thumb-${id}.${extension}`;
+    const newPath = `${folder}/${id}.${extension}`;
+
+    file.open = async function () {
+      this._writeStream = new Transform({
+        transform(chunk, encoding, callback) {
+          callback(null, chunk);
+        },
       });
 
-      try {
-        const images = await Promise.all(promises);
-        response.push(...images);
-      } catch (error) {
-        console.error(error);
-        res.status(500).send("Internal Server Error");
-        return;
-      }
-    }
-    insertArray(response, folder);
-    res.end(JSON.stringify(response));
+      this._writeStream.on("finish", () => {
+        // File processing is complete
+        filesProcessed++;
+        response.push(new Photo(id, newPath, thumbNewPath, folder, extension));
+        finishProcessing();
+      });
+
+      new Upload({
+        client: s3Client,
+        params: {
+          Bucket: "reussgraphy",
+          Key: newPath,
+          Body: this._writeStream,
+        },
+      })
+        .done()
+        .then(() => {
+          this.emit("successUpload", {
+            name: "successUpload",
+            value: "File uploaded successfully",
+          });
+          this._writeStream.end();
+        })
+        .catch((err) => {
+          console.log(err);
+          this.emit("error", err);
+        });
+    };
   });
 });
-
-const createImage = async (
-  file: any,
-  album: string,
-  idx: number
-): Promise<Photo> =>
-  new Promise((resolve, reject) => {
-    if (!fs.existsSync(UPLOAD_PATH + "/" + album))
-      fs.mkdirSync(UPLOAD_PATH + "/" + album, { recursive: true });
-    try {
-      let splitedFilePath: string[] = [];
-      if (file[0].filepath.includes("/"))
-        splitedFilePath = file[0].filepath.split("/");
-      else splitedFilePath = file[0].filepath.split("\\");
-
-      const newFileName = splitedFilePath[splitedFilePath.length - 1];
-      const thumbNewPath = `${UPLOAD_PATH}/${album}/thumb-${newFileName}`;
-      const newPath = `${UPLOAD_PATH}/${album}/${newFileName}`;
-
-      sharp(file[0].filepath).resize(1000).toFile(thumbNewPath);
-
-      const extension = newFileName.split(".")[1];
-
-      fs.writeFile(newPath, fs.readFileSync(file[0].filepath), function (err) {
-        if (err) {
-          return console.log(err);
-        }
-        resolve(
-          new Photo(
-            (new Date().getTime() + idx * 11).toString(),
-            newPath,
-            thumbNewPath,
-            album,
-            extension
-          )
-        );
-      });
-    } catch (error) {
-      console.log(error);
-      reject("formidable parse error");
-    }
-  });
