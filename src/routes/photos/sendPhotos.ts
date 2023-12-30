@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { deleteOne, findAll, findOne } from "../../db";
-import * as fs from "fs";
 import { s3Client } from "../../aws";
 
 export const sendPhotos = Router();
@@ -24,22 +23,24 @@ sendPhotos.delete("/api/image/:folder/:id", async (req, res) => {
     return;
   }
 
-  const params = {
-    Bucket: "reussgraphy",
-    Key: `${deletedFile.path}`,
-  };
+  s3Client.deleteObject(
+    { Bucket: "reussgraphy", Key: deletedFile.path },
+    (err: any, data: any) => {
+      if (err) console.log(err, err.stack);
+      else console.log(data);
+    }
+  );
 
-  s3Client.deleteObject(params, (err: any, data: any) => {
-    if (err) console.log(err, err.stack);
-    else console.log(data);
-  });
-
-  params.Key = `${deletedFile.thumbPath}`;
-
-  s3Client.deleteObject(params, (err: any, data: any) => {
-    if (err) console.log(err, err.stack);
-    else console.log(data);
-  });
+  s3Client.deleteObject(
+    {
+      Bucket: "reussgraphy",
+      Key: deletedFile.thumbPath,
+    },
+    (err: any, data: any) => {
+      if (err) console.log(err, err.stack);
+      else console.log(data);
+    }
+  );
 
   const photos = (await findAll(folder))?.filter(
     (document) => document.id !== "index"
