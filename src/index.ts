@@ -11,7 +11,10 @@ require("dotenv").config();
 
 const port = process.env.PORT || 80;
 
-app.use();
+// Use cors middleware
+app.use(cors());
+
+// Other middleware configurations
 app.use(bodyParser.urlencoded());
 app.use(express.static(__dirname + "/static"));
 app.use(express.static("public"));
@@ -22,14 +25,11 @@ app.use(
 );
 app.use(bodyParser.json());
 app.use("/", routes);
-// get driver connection
 
 // perform a database connection when server starts
 const mongoURL = process.env.MongoDB_ACCESS || "mongodb://localhost:27017";
-const mongoOptions: MongoClientOptions = {
-  //   useNewUrlParser: true,
-  //   useUnifiedTopology: true,
-};
+const mongoOptions: MongoClientOptions = {};
+
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "/static/index.html"));
 });
