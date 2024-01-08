@@ -12,7 +12,13 @@ require("dotenv").config();
 const port = process.env.PORT || 80;
 
 // Use cors middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://reussgraphy.web.app", // Allow only this domain
+    methods: ["GET", "POST", "PUT", "DELETE"], // Allow only these HTTP methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Allow only these headers
+  })
+);
 
 // Other middleware configurations
 app.use(bodyParser.urlencoded());
